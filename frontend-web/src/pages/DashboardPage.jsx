@@ -17,12 +17,7 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#7F00FF", // Roxo neon
-  "#00C9A7", // Verde piscina
-  "#FF5F6D", // Coral neon
-  "#FFD166", // Amarelo pastel
-  "#4ECDC4", // Azul água
-  "#C06C84", // Rosa queimado
+  "#7F00FF", "#00C9A7", "#FF5F6D", "#FFD166", "#4ECDC4", "#C06C84",
 ];
 
 const Container = styled.div`
@@ -83,6 +78,28 @@ const LogoutButton = styled.button`
   }
 `;
 
+const TopBar = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const Avatar = styled.img`
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eff0f9;
+`;
+
+const UserName = styled.span`
+  color: #25267e;
+  font-weight: bold;
+`;
+
 const Actions = styled.div`
   margin-top: 40px;
   display: flex;
@@ -114,12 +131,6 @@ const ContentWrapper = styled.div`
   padding: 40px;
   background-color: #eff0f9;
   min-height: 100vh;
-`;
-
-const LogoutWrapper = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 20px;
 `;
 
 const ModalOverlay = styled.div`
@@ -176,6 +187,7 @@ function DashboardPage() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   useEffect(() => {
     if (!token) {
@@ -187,31 +199,32 @@ function DashboardPage() {
     fetchGastosPorCategoria();
   }, [token]);
 
-const fetchDados = async () => {
-  try {
-    const orcamentoRes = await fetch("http://localhost:5000/api/orcamento", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const orcamentoData = await orcamentoRes.json();
-    const orc = parseFloat(orcamentoData.orcamento) || 0;
-    setOrcamento(orc);
+  const fetchDados = async () => {
+    try {
+      const orcamentoRes = await fetch("http://localhost:5000/api/orcamento", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const orcamentoData = await orcamentoRes.json();
+      const orc = parseFloat(orcamentoData.orcamento) || 0;
+      setOrcamento(orc);
 
-    const gastosRes = await fetch("http://localhost:5000/api/gastos-por-categoria", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const gastosData = await gastosRes.json();
-    const totalGastos = gastosData.reduce((sum, item) => sum + parseFloat(item.valor), 0);
-    setGastos(totalGastos);
+      const gastosRes = await fetch("http://localhost:5000/api/gastos-por-categoria", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const gastosData = await gastosRes.json();
+      const totalGastos = gastosData.reduce((sum, item) => sum + parseFloat(item.valor), 0);
+      setGastos(totalGastos);
 
-    const saldoAtual = orc - totalGastos;
-    setSaldo(Math.max(saldoAtual, 0)); // 👈 impede saldo negativo
+      const saldoAtual = orc - totalGastos;
+      setSaldo(Math.max(saldoAtual, 0));
 
-    const percentual = orc > 0 ? ((totalGastos / orc) * 100).toFixed(2) : 0;
-    setPercentualGasto(percentual);
-  } catch (error) {
-    console.error("Erro ao buscar dados:", error);
-  }
-};
+      const percentual = orc > 0 ? ((totalGastos / orc) * 100).toFixed(2) : 0;
+      setPercentualGasto(percentual);
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  };
+
   const fetchGastosPorCategoria = () => {
     fetch("http://localhost:5000/api/gastos-por-categoria", {
       headers: { Authorization: `Bearer ${token}` },
@@ -229,6 +242,7 @@ const fetchDados = async () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
     navigate("/login");
   };
 
@@ -261,31 +275,36 @@ const fetchDados = async () => {
   const handleZerarOrcamento = () => setShowConfirmZerar(true);
 
   const handleConfirmZerar = () => {
-  fetch("http://localhost:5000/api/orcamento/zerar", {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => res.json())
-    .then(() => {
-      setShowConfirmZerar(false);
-      // Zerar também os valores localmente
-      setOrcamento(0);
-      setSaldo(0);
-      setPercentualGasto(0);
+    fetch("http://localhost:5000/api/orcamento/zerar", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .catch((err) => console.error(err));
-};
+      .then((res) => res.json())
+      .then(() => {
+        setShowConfirmZerar(false);
+        setOrcamento(0);
+        setSaldo(0);
+        setPercentualGasto(0);
+      })
+      .catch((err) => console.error(err));
+  };
+
   const handleOpenCupom = () => navigate("/cupom");
 
   return (
     <Container>
       <Sidebar onLogout={handleLogout} />
       <ContentWrapper>
-        <LogoutWrapper>
-          <LogoutButton onClick={handleLogout}>Fazer Logout</LogoutButton>
-        </LogoutWrapper>
+        <TopBar>
+          <UserName>{usuario?.nome || "Usuário"}</UserName>
+          <Avatar
+            src={`http://localhost:5000/uploads/${usuario?.foto_url || "default-avatar.png"}`}
+            alt="Foto de perfil"
+          />
+          <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+        </TopBar>
 
         <Title>Dashboard Financeiro</Title>
 
@@ -303,35 +322,35 @@ const fetchDados = async () => {
         </Actions>
 
         <h2 style={{ marginTop: "40px", color: "#3f4872" }}>Gasto por Categoria</h2>
-          <div style={{ width: "100%", height: 300 }}>
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  data={gastosPorCategoria.reduce((acc, item) => {
-                    const found = acc.find(c => c.categoria === item.categoria);
-                    if (found) {
-                      found.valor += item.valor;
-                    } else {
-                      acc.push({ ...item });
-                    }
-                    return acc;
-                  }, [])}
-                  dataKey="valor"
-                  nameKey="categoria"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  label
-                >
-                  {gastosPorCategoria.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={gastosPorCategoria.reduce((acc, item) => {
+                  const found = acc.find(c => c.categoria === item.categoria);
+                  if (found) {
+                    found.valor += item.valor;
+                  } else {
+                    acc.push({ ...item });
+                  }
+                  return acc;
+                }, [])}
+                dataKey="valor"
+                nameKey="categoria"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {gastosPorCategoria.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
 
         <h2 style={{ marginTop: "40px", color: "#3f4872" }}>Histórico de Gastos</h2>
         <div style={{ width: "100%", height: 300 }}>
