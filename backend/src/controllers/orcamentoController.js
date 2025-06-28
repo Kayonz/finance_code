@@ -48,11 +48,17 @@ export const salvarOrcamento = async (req, res) => {
 
     const categorias = result.rows;
 
+    if (categorias.length === 0) {
+      console.log('Nenhuma categoria encontrada para o usuário:', userId);
+      return res.status(400).json({ message: 'Nenhuma categoria encontrada para distribuir o orçamento.' });
+    }
+
     const totalAtual = categorias.reduce((acc, cat) => acc + parseFloat(cat.limite), 0);
 
     if (totalAtual === 0) {
       // Se orçamento atual for 0, distribui igualmente
       const novoLimite = valor / categorias.length;
+      console.log('Distribuindo orçamento igualmente. Novo limite por categoria:', novoLimite);
 
       await Promise.all(
         categorias.map((cat) =>
@@ -64,10 +70,12 @@ export const salvarOrcamento = async (req, res) => {
       );
     } else {
       // Proporcional ao limite atual
+      console.log('Distribuindo orçamento proporcionalmente. Total atual:', totalAtual);
       await Promise.all(
         categorias.map((cat) => {
           const proporcao = parseFloat(cat.limite) / totalAtual;
           const novoLimite = proporcao * valor;
+          console.log(`Categoria ${cat.id}: Proporção ${proporcao}, Novo Limite ${novoLimite}`);
 
           return pool.query(
             'UPDATE categorias SET limite = $1 WHERE id = $2',
@@ -83,3 +91,4 @@ export const salvarOrcamento = async (req, res) => {
     res.status(500).json({ message: 'Erro ao salvar orçamento' });
   }
 };
+

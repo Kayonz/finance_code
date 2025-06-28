@@ -1,4 +1,4 @@
-import pool from '../config/database.js';
+  import pool from '../config/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -7,13 +7,16 @@ export const registerUser = async (req, res) => {
   const { nome, email, senha } = req.body;
 
   try {
+    console.log('Iniciando registro de usuário para:', email);
 
     const exist = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
     if (exist.rows.length > 0) {
+      console.log('Email já cadastrado:', email);
       return res.status(400).json({ message: 'Email já cadastrado' });
     }
 
     const hashedSenha = await bcrypt.hash(senha, 10);
+    console.log('Senha hash gerada.');
 
     const result = await pool.query(
       'INSERT INTO users (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email, foto_url',
@@ -21,11 +24,40 @@ export const registerUser = async (req, res) => {
     );
 
     const user = result.rows[0];
+    console.log('Usuário registrado com ID:', user.id);
+
+    // Criação de categorias padrão para o novo usuário
+    const defaultCategories = [
+      { nome: 'Alimentação', limite: 0 },
+      { nome: 'Transporte', limite: 0 },
+      { nome: 'Lazer', limite: 0 },
+      { nome: 'Mercado', limite: 0 },
+      { nome: 'Saúde', limite: 0 },
+      { nome: 'Produtos Online', limite: 0 },
+      { nome: 'Pix para pessoas', limite: 0 },
+      { nome: 'Academia', limite: 0 },
+    ];
+
+    console.log('Iniciando criação de categorias padrão para o usuário:', user.id);
+    for (const category of defaultCategories) {
+      try {
+        await pool.query(
+          'INSERT INTO categorias (usuario_id, nome, limite) VALUES ($1, $2, $3)',
+          [user.id, category.nome, category.limite]
+        );
+        console.log(`Categoria '${category.nome}' criada para o usuário ${user.id}`);
+      } catch (catError) {
+        console.error(`Erro ao criar categoria '${category.nome}' para o usuário ${user.id}:`, catError);
+      }
+    }
+    console.log('Finalizada tentativa de criação de categorias padrão.');
+
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    console.log('Token JWT gerado para o usuário:', user.id);
 
     res.status(201).json({ token, user });
   } catch (error) {
-    console.error(error);
+    console.error('Erro geral no registro de usuário:', error);
     res.status(500).json({ message: 'Erro no servidor' });
   }
 };
@@ -113,3 +145,4 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor' });
   }
 };
+
