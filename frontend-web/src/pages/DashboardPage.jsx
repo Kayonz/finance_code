@@ -89,6 +89,34 @@ const UserGreeting = styled.div`
   }
 `;
 
+const UserAvatar = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+`;
+
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -416,6 +444,8 @@ function DashboardPage() {
   const [novoOrcamento, setNovoOrcamento] = useState("");
   const [showConfirmZerar, setShowConfirmZerar] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userPhoto, setUserPhoto] = useState("");
+  const [userInitials, setUserInitials] = useState("");
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -439,11 +469,26 @@ function DashboardPage() {
       if (res.ok) {
         const data = await res.json();
         setUserName(data.user.nome);
+        
+        // Gerar iniciais do nome
+        const initials = data.user.nome
+          .split(' ')
+          .map(word => word.charAt(0))
+          .join('')
+          .toUpperCase()
+          .substring(0, 2);
+        setUserInitials(initials);
+        
+        // Buscar foto de perfil se existir
+        if (data.user.foto_url) { // Alterado de foto_perfil para foto_url
+          setUserPhoto(`http://localhost:5000${data.user.foto_url}`); // Removido /uploads
+        }
       }
     } catch (error) {
       console.error("Erro ao buscar informações do usuário:", error);
     }
   };
+
 
   const fetchDados = async () => {
     try {
@@ -557,6 +602,21 @@ function DashboardPage() {
         <Header>
           <Title>Dashboard Financeiro</Title>
           <UserGreeting>
+            <UserAvatar>
+              {userPhoto ? (
+                <img 
+                  src={userPhoto} 
+                  alt="Foto de perfil" 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              <span style={{ display: userPhoto ? 'none' : 'flex' }}>
+                {userInitials || "U"}
+              </span>
+            </UserAvatar>
             <UserInfo>
               <WelcomeText>Bem-vindo de volta,</WelcomeText>
               <UserName>{userName || "Usuário"}</UserName>
