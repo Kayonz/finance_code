@@ -480,14 +480,15 @@ function DashboardPage() {
         setUserInitials(initials);
         
         // Buscar foto de perfil se existir
-        if (data.user.foto_perfil) {
-          setUserPhoto(`http://localhost:5000/${data.user.foto_perfil}`);
+        if (data.user.foto_url) { // Alterado de foto_perfil para foto_url
+          setUserPhoto(`http://localhost:5000${data.user.foto_url}`); // Removido /uploads
         }
       }
     } catch (error) {
       console.error("Erro ao buscar informações do usuário:", error);
     }
   };
+
 
   const fetchDados = async () => {
     try {
