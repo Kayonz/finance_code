@@ -30,6 +30,42 @@ const SidebarContainer = styled.div`
   }
 `;
 
+const MobileMenuButton = styled.button`
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: linear-gradient(135deg, #6a0099 0%, #4a0066 100%);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(106, 0, 153, 0.4);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(106, 0, 153, 0.6);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+  }
+`;
+
 const Overlay = styled.div`
   display: none;
   
@@ -66,14 +102,25 @@ const Logo = styled.div`
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: white;
   overflow: hidden;
   white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
   
   @media (max-width: 768px) {
     display: flex;
+    font-size: 1rem;
   }
+`;
+
+const LogoText = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 1;
 `;
 
 const ToggleButton = styled.button`
@@ -324,6 +371,7 @@ const UserRole = styled.div`
 function Sidebar({ onLogout, onSidebarToggle }) {
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [userData, setUserData] = useState({ nome: "Usuário", role: "Administrador" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -339,6 +387,36 @@ function Sidebar({ onLogout, onSidebarToggle }) {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Buscar dados do usuário do localStorage ou API
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          // Tentar buscar dados do usuário da API
+          const response = await fetch('http://localhost:5000/api/auth/me', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            setUserData({
+              nome: data.nome || "Usuário",
+              role: data.role || "Usuário"
+            });
+          }
+        }
+      } catch (error) {
+        console.log('Erro ao buscar dados do usuário:', error);
+        // Manter dados padrão se houver erro
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   useEffect(() => {
@@ -362,14 +440,29 @@ function Sidebar({ onLogout, onSidebarToggle }) {
     closeSidebar();
   };
 
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
   return (
     <>
+      {/* Botão móvel sempre visível */}
+      <MobileMenuButton onClick={toggleSidebar}>
+        <FaBars />
+      </MobileMenuButton>
+
       <Overlay isOpen={isOpen && isMobile} onClick={closeSidebar} />
+      
       <SidebarContainer isOpen={isOpen}>
         <Header isOpen={isOpen}>
           <Logo isOpen={isOpen}>
             <FaChartPie />
-            FinanceApp
+            <LogoText>FinanceApp</LogoText>
           </Logo>
           <ToggleButton onClick={toggleSidebar}>
             {isMobile && isOpen ? <FaTimes /> : <FaBars />}
@@ -410,10 +503,10 @@ function Sidebar({ onLogout, onSidebarToggle }) {
 
         <Footer>
           <UserInfo isOpen={isOpen}>
-            <Avatar>U</Avatar>
+            <Avatar>{getInitials(userData.nome)}</Avatar>
             <UserDetails>
-              <UserName>Usuário</UserName>
-              <UserRole>Administrador</UserRole>
+              <UserName>{userData.nome}</UserName>
+              <UserRole>{userData.role}</UserRole>
             </UserDetails>
           </UserInfo>
         </Footer>
