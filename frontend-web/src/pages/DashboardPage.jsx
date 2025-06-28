@@ -481,7 +481,7 @@ function DashboardPage() {
         
         // Buscar foto de perfil se existir
         if (data.user.foto_perfil) {
-          setUserPhoto(`http://localhost:5000/uploads/${data.user.foto_perfil}`);
+          setUserPhoto(`http://localhost:5000/${data.user.foto_perfil}`);
         }
       }
     } catch (error) {

@@ -372,7 +372,7 @@ function EditarPerfil() {
         setNome(data.user.nome);
         setEmail(data.user.email);
         if (data.user.foto_url) {
-          setFotoAtualUrl(`http://localhost:5000/uploads/${data.user.foto_url}`);
+          setFotoAtualUrl(`http://localhost:5000${data.user.foto_url}`);
         }
       })
       .catch(() => {
@@ -431,7 +431,7 @@ function EditarPerfil() {
       setSucesso("Perfil atualizado com sucesso!");
       
       if (data.user.foto_url) {
-        setFotoAtualUrl(`http://localhost:5000/uploads/${data.user.foto_url}`);
+        setFotoAtualUrl(`http://localhost:5000${data.user.foto_url}`);
       }
       
       setSenha("");

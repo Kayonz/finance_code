@@ -24,7 +24,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
+app.use('/uploads_perfil', express.static(path.join(__dirname, 'uploads_perfil')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoriaRoutes);
@@ -52,3 +52,5 @@ app.get('/usuarios', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🔥 Servidor rodando na porta ${PORT}`));
+
+

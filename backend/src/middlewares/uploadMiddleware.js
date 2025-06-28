@@ -7,8 +7,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Garante que a pasta uploads exista
-const pastaUploads = path.resolve(__dirname, '../uploads');
+// Garante que a pasta uploads_perfil exista
+const pastaUploads = path.resolve(__dirname, '../uploads_perfil');
 if (!fs.existsSync(pastaUploads)) {
   fs.mkdirSync(pastaUploads);
 }
@@ -29,3 +29,5 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export default upload;
+
+

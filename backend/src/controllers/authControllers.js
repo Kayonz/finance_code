@@ -1,4 +1,4 @@
-  import pool from '../config/database.js';
+import pool from '../config/database.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -99,7 +99,13 @@ export const getUserProfile = async (req, res) => {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    res.json({ user: result.rows[0] });
+    const user = result.rows[0];
+    // Garante que a URL da foto de perfil esteja correta para o frontend
+    if (user.foto_url && !user.foto_url.startsWith('/uploads_perfil/')) {
+      user.foto_url = `/uploads_perfil/${user.foto_url}`;
+    }
+
+    res.json({ user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro no servidor' });
@@ -129,6 +135,7 @@ export const updateUserProfile = async (req, res) => {
     }
 
     if (fotoPerfil) {
+      // Salva o caminho completo da imagem no banco de dados
       query += `, foto_url = $${idx}`;
       params.push(fotoPerfil.filename); 
       idx++;
@@ -139,7 +146,13 @@ export const updateUserProfile = async (req, res) => {
 
     const result = await pool.query(query, params);
 
-    res.json({ user: result.rows[0] });
+    const updatedUser = result.rows[0];
+    // Garante que a URL da foto de perfil esteja correta para o frontend
+    if (updatedUser.foto_url && !updatedUser.foto_url.startsWith('/uploads_perfil/')) {
+      updatedUser.foto_url = `/uploads_perfil/${updatedUser.foto_url}`;
+    }
+
+    res.json({ user: updatedUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro no servidor' });
