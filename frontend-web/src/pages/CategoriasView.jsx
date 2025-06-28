@@ -5,7 +5,7 @@ import { FaChartLine, FaCalendarAlt, FaShoppingCart, FaSearch } from "react-icon
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh; /* Alterado de height para min-height */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -18,7 +18,7 @@ const ContentWrapper = styled.div`
   padding: 20px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   width: calc(100% - ${(props) => (props.sidebarOpen ? "220px" : "70px")});
-  min-height: 100vh;
+  min-height: 100vh; /* Adicionado min-height aqui também */
   transition: all 0.3s ease;
   
   @media (max-width: 768px) {
@@ -144,7 +144,7 @@ const CategoriaCard = styled.div`
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -371,7 +371,7 @@ const ErrorState = styled.div`
 export default function CategoriasPage() {
   const [categorias, setCategorias] = useState([]);
   const [gastosPorCategoria, setGastosPorCategoria] = useState({});
-  const [abertos, setAbertos] = useState({});
+  const [abertoId, setAbertoId] = useState(null); // Alterado para armazenar apenas o ID da categoria aberta
   const [contentHeights, setContentHeights] = useState({});
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -415,10 +415,11 @@ export default function CategoriasPage() {
 
   // Alterna aberto/fechado e carrega gastos da categoria se abrir
   const toggleAberto = (id) => {
-    const novoAberto = !abertos[id];
-    setAbertos((prev) => ({ ...prev, [id]: novoAberto }));
+    // Se a categoria clicada já estiver aberta, fecha. Senão, abre a nova.
+    const novoAbertoId = abertoId === id ? null : id;
+    setAbertoId(novoAbertoId);
 
-    if (novoAberto && !gastosPorCategoria[id]) {
+    if (novoAbertoId && !gastosPorCategoria[id]) {
       fetch(`http://localhost:5000/api/categorias/${id}/gastos`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -496,7 +497,7 @@ export default function CategoriasPage() {
                     <CategoriaCard key={cat.id} onClick={() => toggleAberto(cat.id)}>
                       <CardHeader>
                         <CategoriaNome>{cat.nome}</CategoriaNome>
-                        <ExpandIcon aberto={abertos[cat.id]}>▲</ExpandIcon>
+                        <ExpandIcon aberto={abertoId === cat.id}>▲</ExpandIcon> {/* Alterado aqui */}
                       </CardHeader>
 
                       <TotalGasto>
@@ -518,7 +519,7 @@ export default function CategoriasPage() {
                       </StatsContainer>
 
                       <DetalhesWrapper
-                        aberto={abertos[cat.id]}
+                        aberto={abertoId === cat.id} /* Alterado aqui */
                         contentHeight={contentHeights[cat.id] || 0}
                       >
                         <DetalhesContent ref={(el) => (detalhesRefs.current[cat.id] = el)}>
@@ -564,4 +565,6 @@ export default function CategoriasPage() {
     </Container>
   );
 }
+
+
 

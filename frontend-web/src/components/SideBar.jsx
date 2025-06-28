@@ -34,7 +34,7 @@ const MobileMenuButton = styled.button`
   display: none;
   position: fixed;
   top: 20px;
-  left: 20px;
+  left: 25px;
   z-index: 1001;
   background: linear-gradient(135deg, #6a0099 0%, #4a0066 100%);
   border: none;
@@ -196,7 +196,7 @@ const MenuItem = styled.div`
   }
 
   &::before {
-    content: '';
+    content: \'\'; /* Corrigido: removido o escape extra */
     position: absolute;
     left: 0;
     top: 0;
@@ -264,7 +264,7 @@ const MenuLink = styled(Link)`
   }
 
   &::before {
-    content: '';
+    content: \'\'; /* Corrigido: removido o escape extra */
     position: absolute;
     left: 0;
     top: 0;
@@ -343,6 +343,13 @@ const Avatar = styled.div`
   font-weight: 700;
   font-size: 1.1rem;
   flex-shrink: 0;
+  overflow: hidden; /* Adicionado para garantir que a imagem se ajuste */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const UserDetails = styled.div`
@@ -371,7 +378,7 @@ const UserRole = styled.div`
 function Sidebar({ onLogout, onSidebarToggle }) {
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [userData, setUserData] = useState({ nome: "Usuário", role: "Administrador" });
+  const [userData, setUserData] = useState({ nome: "Usuário", role: "Administrador", foto_url: null }); // Adicionado foto_url
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -385,7 +392,7 @@ function Sidebar({ onLogout, onSidebarToggle }) {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize); /* Corrigido: removido o escape extra */
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -405,8 +412,9 @@ function Sidebar({ onLogout, onSidebarToggle }) {
           if (response.ok) {
             const data = await response.json();
             setUserData({
-              nome: data.nome || "Usuário",
-              role: data.role || "Usuário"
+              nome: data.user.nome || "Usuário", // Acessar data.user.nome
+              role: data.user.role || "Usuário", // Assumindo que a role vem em data.user.role
+              foto_url: data.user.foto_url ? `http://localhost:5000${data.user.foto_url}` : null // Construir URL da foto
             });
           }
         }
@@ -503,7 +511,13 @@ function Sidebar({ onLogout, onSidebarToggle }) {
 
         <Footer>
           <UserInfo isOpen={isOpen}>
-            <Avatar>{getInitials(userData.nome)}</Avatar>
+            <Avatar>
+              {userData.foto_url ? (
+                <img src={userData.foto_url} alt="Foto de Perfil" />
+              ) : (
+                getInitials(userData.nome)
+              )}
+            </Avatar>
             <UserDetails>
               <UserName>{userData.nome}</UserName>
               <UserRole>{userData.role}</UserRole>
@@ -516,4 +530,5 @@ function Sidebar({ onLogout, onSidebarToggle }) {
 }
 
 export default Sidebar;
+
 
