@@ -1,7 +1,7 @@
 import express from 'express';
 import { registerUser, loginUser, getUserProfile, updateUserProfile } from '../controllers/authControllers.js';
 import { verifyToken } from '../middlewares/authMiddleware.js';
-import upload from '../middlewares/upload.js'; 
+import upload from '../middlewares/uploadMiddleware.js'; 
 
 const router = express.Router();
 
