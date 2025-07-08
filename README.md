@@ -24,7 +24,7 @@ O backend do Finance Code é construído com as seguintes tecnologias:
 - **cors**: Middleware para habilitar o Cross-Origin Resource Sharing (CORS), permitindo requisições do frontend.
 - **dotenv**: Módulo para carregar variáveis de ambiente de um arquivo `.env`.
 - **jsonwebtoken**: Implementação de JSON Web Tokens (JWT) para autenticação e autorização.
-- **mongoose**: Modelagem de objetos MongoDB para Node.js, facilitando a interação com o banco de dados MongoDB.
+- **PostgreSQL**
 
 #### Como Iniciar o Backend
 
@@ -36,12 +36,12 @@ Para configurar e executar o backend, siga os passos abaixo:
     ```
 2.  Instale as dependências do projeto:
     ```bash
-    npm install express
+    npm install
     ```
-3.  Crie um arquivo `.env` na raiz do diretório `backend` e configure as variáveis de ambiente necessárias (ex: `MONGO_URI`, `JWT_SECRET`).
+3.  Crie um arquivo `.env` na raiz do diretório `backend` e configure as variáveis de ambiente necessárias (`JWT_SECRET`).
 4.  Inicie o servidor:
     ```bash
-    node src/app.js
+    npm start
     ```
     O servidor estará disponível em `http://localhost:3000` (ou na porta configurada).
 
@@ -109,7 +109,7 @@ O Finance Code oferece as seguintes funcionalidades:
 ### Backend
 - Node.js
 - Express.js
-- MongoDB (com Mongoose)
+- PostgreSQL
 - JSON Web Token (JWT)
 - Bcrypt
 
@@ -117,24 +117,5 @@ O Finance Code oferece as seguintes funcionalidades:
 
 - Node.js (v14.0.0 ou superior)
 - NPM (v6.0.0 ou superior)
-- MongoDB (v4.0.0 ou superior)
+- PostgreSQL (v10.0.0 ou superior)
 - Navegador web moderno (Chrome, Firefox, Safari, Edge)
-
-## Contribuição
-
-Para contribuir com o projeto:
-
-1. Faça um fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Faça commit das suas alterações (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Faça push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto está licenciado sob a licença ISC.
-
----
-
-Desenvolvido como parte do Trabalho de Conclusão de Curso.
-
