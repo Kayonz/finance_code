@@ -24,14 +24,14 @@ export const getMetricasFinanceiras = async (req, res) => {
     // 2. Total orçamento disponível (soma dos limites das categorias)
     const orcamentoResult = await pool.query(
       `
-      SELECT SUM(limite) AS total_orcamento
-      FROM categorias
-      WHERE usuario_id = $1
+      SELECT orcamento_total AS total_orcamento
+      FROM users
+      WHERE id = $1
       `,
       [userId]
     );
 
-    const totalOrcamento = parseFloat(orcamentoResult.rows[0].total_orcamento) || 0;
+    const totalOrcamento = parseFloat(orcamentoResult.rows[0].orcamento_total) || 0;
 
     // 3. Valor poupado
     const valorPoupado = Math.max(0, totalOrcamento - totalGastos);
