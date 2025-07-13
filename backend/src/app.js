@@ -46,6 +46,7 @@ app.get('/usuarios', async (req, res) => {
     const result = await pool.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
     res.status(500).json({ error: 'Erro ao buscar usuários' });
   }
 });
@@ -53,4 +54,8 @@ app.get('/usuarios', async (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🔥 Servidor rodando na porta ${PORT}`));
 
+
+
+
+export default app;
 

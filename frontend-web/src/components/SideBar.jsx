@@ -1,14 +1,20 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { FaChartPie, FaSignOutAlt, FaBars, FaCamera, FaTimes } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
-import { MdCategory } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import { AiFillSignal } from "react-icons/ai";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import {
+  FaChartPie,
+  FaSignOutAlt,
+  FaBars,
+  FaCamera,
+  FaTimes,
+} from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
+import { MdCategory } from 'react-icons/md';
+import { Link, useNavigate } from 'react-router-dom';
+import { AiFillSignal } from 'react-icons/ai';
 
 const SidebarContainer = styled.div`
   height: 100vh;
-  width: ${(props) => (props.isOpen ? "220px" : "70px")};
+  width: ${(props) => (props.isOpen ? '220px' : '70px')};
   background: linear-gradient(180deg, #6a0099 0%, #4a0066 100%);
   color: white;
   display: flex;
@@ -24,9 +30,10 @@ const SidebarContainer = styled.div`
   overflow: hidden;
 
   @media (max-width: 768px) {
-    width: ${(props) => (props.isOpen ? "280px" : "0")};
-    transform: translateX(${(props) => (props.isOpen ? "0" : "-100%")});
-    box-shadow: ${(props) => (props.isOpen ? "0 0 50px rgba(0, 0, 0, 0.5)" : "none")};
+    width: ${(props) => (props.isOpen ? '280px' : '0')};
+    transform: translateX(${(props) => (props.isOpen ? '0' : '-100%')});
+    box-shadow: ${(props) =>
+      props.isOpen ? '0 0 50px rgba(0, 0, 0, 0.5)' : 'none'};
   }
 `;
 
@@ -68,9 +75,9 @@ const MobileMenuButton = styled.button`
 
 const Overlay = styled.div`
   display: none;
-  
+
   @media (max-width: 768px) {
-    display: ${(props) => (props.isOpen ? "block" : "none")};
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
     position: fixed;
     top: 0;
     left: 0;
@@ -87,10 +94,10 @@ const Header = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
-  justify-content: ${(props) => (props.isOpen ? "space-between" : "center")};
+  justify-content: ${(props) => (props.isOpen ? 'space-between' : 'center')};
   min-height: 70px;
   overflow: hidden;
-  
+
   @media (max-width: 768px) {
     padding: 15px 20px;
     justify-content: space-between;
@@ -98,7 +105,7 @@ const Header = styled.div`
 `;
 
 const Logo = styled.div`
-  display: ${(props) => (props.isOpen ? "flex" : "none")};
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
   align-items: center;
   gap: 10px;
   font-weight: 700;
@@ -108,7 +115,7 @@ const Logo = styled.div`
   white-space: nowrap;
   min-width: 0;
   flex-shrink: 1;
-  
+
   @media (max-width: 768px) {
     display: flex;
     font-size: 1rem;
@@ -147,7 +154,7 @@ const ToggleButton = styled.button`
   &:active {
     transform: scale(0.95);
   }
-  
+
   @media (max-width: 768px) {
     background: rgba(255, 255, 255, 0.2);
   }
@@ -158,15 +165,15 @@ const MenuContainer = styled.div`
   padding: 20px 0;
   overflow-y: auto;
   overflow-x: hidden;
-  
+
   &::-webkit-scrollbar {
     width: 4px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
     border-radius: 2px;
@@ -212,27 +219,27 @@ const MenuItem = styled.div`
   }
 
   svg {
-    margin-right: ${(props) => (props.isOpen ? "16px" : "0")};
+    margin-right: ${(props) => (props.isOpen ? '16px' : '0')};
     font-size: 1.3rem;
     min-width: 20px;
     flex-shrink: 0;
     transition: all 0.3s ease;
-    
+
     @media (max-width: 768px) {
       margin-right: 16px;
     }
   }
 
   span {
-    display: ${(props) => (props.isOpen ? "inline" : "none")};
+    display: ${(props) => (props.isOpen ? 'inline' : 'none')};
     font-weight: 500;
     font-size: 0.95rem;
     white-space: nowrap;
-    opacity: ${(props) => (props.isOpen ? "1" : "0")};
+    opacity: ${(props) => (props.isOpen ? '1' : '0')};
     transition: opacity 0.3s ease;
     overflow: hidden;
     text-overflow: ellipsis;
-    
+
     @media (max-width: 768px) {
       display: inline;
       opacity: 1;
@@ -280,27 +287,27 @@ const MenuLink = styled(Link)`
   }
 
   svg {
-    margin-right: ${(props) => (props.isOpen ? "16px" : "0")};
+    margin-right: ${(props) => (props.isOpen ? '16px' : '0')};
     font-size: 1.3rem;
     min-width: 20px;
     flex-shrink: 0;
     transition: all 0.3s ease;
-    
+
     @media (max-width: 768px) {
       margin-right: 16px;
     }
   }
 
   span {
-    display: ${(props) => (props.isOpen ? "inline" : "none")};
+    display: ${(props) => (props.isOpen ? 'inline' : 'none')};
     font-weight: 500;
     font-size: 0.95rem;
     white-space: nowrap;
-    opacity: ${(props) => (props.isOpen ? "1" : "0")};
+    opacity: ${(props) => (props.isOpen ? '1' : '0')};
     transition: opacity 0.3s ease;
     overflow: hidden;
     text-overflow: ellipsis;
-    
+
     @media (max-width: 768px) {
       display: inline;
       opacity: 1;
@@ -312,21 +319,21 @@ const Footer = styled.div`
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  
+
   @media (max-width: 768px) {
     padding: 15px 20px;
   }
 `;
 
 const UserInfo = styled.div`
-  display: ${(props) => (props.isOpen ? "flex" : "none")};
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
   align-items: center;
   gap: 12px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   overflow: hidden;
-  
+
   @media (max-width: 768px) {
     display: flex;
   }
@@ -375,10 +382,14 @@ const UserRole = styled.div`
   text-overflow: ellipsis;
 `;
 
-function Sidebar({ onLogout, onSidebarToggle }) {
+function Sidebar({ onSidebarToggle }) {
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [userData, setUserData] = useState({ nome: "Usuário", role: "Administrador", foto_url: null }); // Adicionado foto_url
+  const [userData, setUserData] = useState({
+    nome: 'Usuário',
+    role: 'Administrador',
+    foto_url: null,
+  }); // Adicionado foto_url
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -392,7 +403,10 @@ function Sidebar({ onLogout, onSidebarToggle }) {
       }
     };
 
-    window.addEventListener('resize', handleResize); /* Corrigido: removido o escape extra */
+    window.addEventListener(
+      'resize',
+      handleResize,
+    ); /* Corrigido: removido o escape extra */
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -405,16 +419,18 @@ function Sidebar({ onLogout, onSidebarToggle }) {
           // Tentar buscar dados do usuário da API
           const response = await fetch('http://localhost:5000/api/auth/me', {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
-          
+
           if (response.ok) {
             const data = await response.json();
             setUserData({
-              nome: data.user.nome || "Usuário", // Acessar data.user.nome
-              role: data.user.role || "Usuário", // Assumindo que a role vem em data.user.role
-              foto_url: data.user.foto_url ? `http://localhost:5000${data.user.foto_url}` : null // Construir URL da foto
+              nome: data.user.nome || 'Usuário', // Acessar data.user.nome
+              role: data.user.role || 'Usuário', // Assumindo que a role vem em data.user.role
+              foto_url: data.user.foto_url
+                ? `http://localhost:5000${data.user.foto_url}`
+                : null, // Construir URL da foto
             });
           }
         }
@@ -451,7 +467,7 @@ function Sidebar({ onLogout, onSidebarToggle }) {
   const getInitials = (name) => {
     return name
       .split(' ')
-      .map(word => word.charAt(0))
+      .map((word) => word.charAt(0))
       .join('')
       .toUpperCase()
       .substring(0, 2);
@@ -465,7 +481,7 @@ function Sidebar({ onLogout, onSidebarToggle }) {
       </MobileMenuButton>
 
       <Overlay isOpen={isOpen && isMobile} onClick={closeSidebar} />
-      
+
       <SidebarContainer isOpen={isOpen}>
         <Header isOpen={isOpen}>
           <Logo isOpen={isOpen}>
@@ -478,22 +494,31 @@ function Sidebar({ onLogout, onSidebarToggle }) {
         </Header>
 
         <MenuContainer>
-          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick("/dashboard")}>
+          <MenuItem
+            isOpen={isOpen}
+            onClick={() => handleMenuClick('/dashboard')}
+          >
             <FaChartPie />
             <span>Dashboard</span>
           </MenuItem>
 
-          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick("/cupom")}>
+          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick('/cupom')}>
             <FaCamera />
             <span>Ler Cupom Fiscal</span>
           </MenuItem>
 
-          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick("/categorias")}>
+          <MenuItem
+            isOpen={isOpen}
+            onClick={() => handleMenuClick('/categorias')}
+          >
             <MdCategory />
             <span>Categorias</span>
           </MenuItem>
 
-          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick("/metricas")}>
+          <MenuItem
+            isOpen={isOpen}
+            onClick={() => handleMenuClick('/metricas')}
+          >
             <AiFillSignal />
             <span>Métricas</span>
           </MenuItem>
@@ -503,7 +528,7 @@ function Sidebar({ onLogout, onSidebarToggle }) {
             <span>Editar Perfil</span>
           </MenuLink>
 
-          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick("/login")}>
+          <MenuItem isOpen={isOpen} onClick={() => handleMenuClick('/login')}>
             <FaSignOutAlt />
             <span>Sair</span>
           </MenuItem>
@@ -530,5 +555,3 @@ function Sidebar({ onLogout, onSidebarToggle }) {
 }
 
 export default Sidebar;
-
-

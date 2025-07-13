@@ -1,9 +1,9 @@
-body, html {
-  font-family: "Montserrat", sans-serif;
+body,
+html {
+  font-family: 'Montserrat', sans-serif;
   height: 100%;
   margin: 0;
 }
-
 
 .login-container {
   min-height: 100vh; /* Garante que ocupe toda a altura da tela */
@@ -13,8 +13,9 @@ body, html {
   justify-content: center;
 }
 
-body, html {
-  font-family: "Montserrat", sans-serif;
+body,
+html {
+  font-family: 'Montserrat', sans-serif;
   height: 100%;
   margin: 0;
   overflow-x: hidden;
@@ -53,7 +54,7 @@ body, html {
   .mobile-only {
     display: block;
   }
-  
+
   .desktop-only {
     display: none;
   }
