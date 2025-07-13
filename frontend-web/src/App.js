@@ -1,10 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import CupomUploadForm from "./pages/CupomUploadForm";
-import DashboardPage from "./pages/DashboardPage";
-import CategoriasView from "./pages/CategoriasView";
-import LoginRegisterPage from "./pages/LoginRegisterPage";
-import PerfilPage from "./pages/PerfilPage";
-import MetricasPage from "./pages/MetricasPage";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
+import CupomUploadForm from './pages/CupomUploadForm';
+import DashboardPage from './pages/DashboardPage';
+import CategoriasView from './pages/CategoriasView';
+import LoginRegisterPage from './pages/LoginRegisterPage';
+import PerfilPage from './pages/PerfilPage';
+import MetricasPage from './pages/MetricasPage';
 
 function App() {
   return (

@@ -11,8 +11,6 @@ import {
   FaWallet,
   FaCalculator,
   FaLightbulb,
-  FaCoins,
-  FaDollarSign
 } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -24,12 +22,12 @@ const Container = styled.div`
 
 const ContentWrapper = styled.main`
   flex: 1;
-  margin-left: ${(props) => (props.sidebarOpen ? "220px" : "70px")};
+  margin-left: ${(props) => (props.sidebarOpen ? '220px' : '70px')};
   padding: 20px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
   transition: all 0.3s ease;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     padding: 15px;
@@ -44,7 +42,7 @@ const Header = styled.div`
   margin-bottom: 30px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  
+
   @media (max-width: 768px) {
     padding: 20px;
     margin-bottom: 20px;
@@ -60,7 +58,7 @@ const Title = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -70,7 +68,7 @@ const Subtitle = styled.p`
   color: #718096;
   margin: 0;
   font-size: 1.1rem;
-  
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }
@@ -81,7 +79,7 @@ const MetricsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px;
   margin-bottom: 30px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -111,7 +109,8 @@ const MetricCard = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: ${(props) => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+    background: ${(props) =>
+      props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   }
 `;
 
@@ -126,7 +125,8 @@ const MetricIcon = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 15px;
-  background: ${(props) => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+  background: ${(props) =>
+    props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +148,7 @@ const MetricValue = styled.div`
   font-weight: 700;
   color: #2d3748;
   margin-bottom: 5px;
-  
+
   @media (max-width: 768px) {
     font-size: 1.7rem;
   }
@@ -170,7 +170,8 @@ const MetricProgress = styled.div`
 
 const MetricProgressBar = styled.div`
   height: 100%;
-  background: ${(props) => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+  background: ${(props) =>
+    props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   width: ${(props) => props.percentage || 0}%;
   transition: width 0.8s ease;
 `;
@@ -199,7 +200,7 @@ const SimulatorGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -226,7 +227,7 @@ const Input = styled.input`
   font-size: 1rem;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.8);
-  
+
   &:focus {
     outline: none;
     border-color: #667eea;
@@ -242,7 +243,7 @@ const Select = styled.select`
   font-size: 1rem;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.8);
-  
+
   &:focus {
     outline: none;
     border-color: #667eea;
@@ -289,7 +290,10 @@ const InsightsTitle = styled.h2`
 `;
 
 const InsightCard = styled.div`
-  background: linear-gradient(135deg, ${(props) => props.gradient || '#667eea 0%, #764ba2 100%'});
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.gradient || '#667eea 0%, #764ba2 100%'}
+  );
   color: white;
   padding: 20px;
   border-radius: 15px;
@@ -333,22 +337,22 @@ function MetricasPage() {
   const [metricas, setMetricas] = useState({
     totalGastos: 0,
     valorPoupado: 0,
-    rendimentoCDI: 0
+    rendimentoCDI: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [simulatorValues, setSimulatorValues] = useState({
     valorMensal: 500,
     periodo: 12,
-    tipoInvestimento: 'poupanca'
+    tipoInvestimento: 'poupanca',
   });
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchMetricas = async () => {
       if (!token) {
-        setError("Usuário não autenticado.");
+        setError('Usuário não autenticado.');
         setLoading(false);
         return;
       }
@@ -356,9 +360,9 @@ function MetricasPage() {
       try {
         setLoading(true);
         const response = await axios.get('http://localhost:5000/api/metricas', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         setMetricas(response.data);
         setError(null);
       } catch (error) {
@@ -367,8 +371,8 @@ function MetricasPage() {
         // Dados de fallback para demonstração
         setMetricas({
           totalGastos: 2450.75,
-          valorPoupado: 1200.00,
-          rendimentoCDI: 85.50
+          valorPoupado: 1200.0,
+          rendimentoCDI: 85.5,
         });
       } finally {
         setLoading(false);
@@ -384,21 +388,24 @@ function MetricasPage() {
       poupanca: 0.005, // 0.5% ao mês
       cdi: 0.008, // 0.8% ao mês
       tesouro: 0.007, // 0.7% ao mês
-      acoes: 0.012 // 1.2% ao mês (mais arriscado)
+      acoes: 0.012, // 1.2% ao mês (mais arriscado)
     };
-    
+
     const taxa = taxas[tipoInvestimento];
     let total = 0;
-    
+
     for (let i = 0; i < periodo; i++) {
       total = (total + valorMensal) * (1 + taxa);
     }
-    
+
     return total;
   };
 
   const metaMensal = 3000;
-  const percentualMeta = Math.min((metricas.totalGastos / metaMensal) * 100, 100);
+  const percentualMeta = Math.min(
+    (metricas.totalGastos / metaMensal) * 100,
+    100,
+  );
   const economiaProjetada = Math.max(0, metaMensal - metricas.totalGastos);
 
   if (loading) {
@@ -439,8 +446,8 @@ function MetricasPage() {
             <MetricValue>R$ {metricas.totalGastos.toFixed(2)}</MetricValue>
             <MetricLabel>Total gasto este mês</MetricLabel>
             <MetricProgress>
-              <MetricProgressBar 
-                percentage={percentualMeta} 
+              <MetricProgressBar
+                percentage={percentualMeta}
                 gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
               />
             </MetricProgress>
@@ -459,8 +466,8 @@ function MetricasPage() {
             <MetricValue>R$ {metricas.valorPoupado.toFixed(2)}</MetricValue>
             <MetricLabel>Valor poupado</MetricLabel>
             <MetricProgress>
-              <MetricProgressBar 
-                percentage={75} 
+              <MetricProgressBar
+                percentage={75}
                 gradient="linear-gradient(135deg, #48bb78 0%, #38a169 100%)"
               />
             </MetricProgress>
@@ -479,8 +486,8 @@ function MetricasPage() {
             <MetricValue>R$ {metricas.rendimentoCDI.toFixed(2)}</MetricValue>
             <MetricLabel>Rendimento simulado (CDI)</MetricLabel>
             <MetricProgress>
-              <MetricProgressBar 
-                percentage={60} 
+              <MetricProgressBar
+                percentage={60}
                 gradient="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
               />
             </MetricProgress>
@@ -499,8 +506,12 @@ function MetricasPage() {
             <MetricValue>R$ {economiaProjetada.toFixed(2)}</MetricValue>
             <MetricLabel>Economia projetada este mês</MetricLabel>
             <MetricProgress>
-              <MetricProgressBar 
-                percentage={economiaProjetada > 0 ? (economiaProjetada / metaMensal) * 100 : 0} 
+              <MetricProgressBar
+                percentage={
+                  economiaProjetada > 0
+                    ? (economiaProjetada / metaMensal) * 100
+                    : 0
+                }
                 gradient="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
               />
             </MetricProgress>
@@ -519,35 +530,41 @@ function MetricasPage() {
                 <Input
                   type="number"
                   value={simulatorValues.valorMensal}
-                  onChange={(e) => setSimulatorValues({
-                    ...simulatorValues,
-                    valorMensal: parseFloat(e.target.value) || 0
-                  })}
+                  onChange={(e) =>
+                    setSimulatorValues({
+                      ...simulatorValues,
+                      valorMensal: parseFloat(e.target.value) || 0,
+                    })
+                  }
                   placeholder="R$ 500,00"
                 />
               </InputGroup>
-              
+
               <InputGroup>
                 <InputLabel>Período (meses)</InputLabel>
                 <Input
                   type="number"
                   value={simulatorValues.periodo}
-                  onChange={(e) => setSimulatorValues({
-                    ...simulatorValues,
-                    periodo: parseInt(e.target.value) || 1
-                  })}
+                  onChange={(e) =>
+                    setSimulatorValues({
+                      ...simulatorValues,
+                      periodo: parseInt(e.target.value) || 1,
+                    })
+                  }
                   placeholder="12"
                 />
               </InputGroup>
-              
+
               <InputGroup>
                 <InputLabel>Tipo de investimento</InputLabel>
                 <Select
                   value={simulatorValues.tipoInvestimento}
-                  onChange={(e) => setSimulatorValues({
-                    ...simulatorValues,
-                    tipoInvestimento: e.target.value
-                  })}
+                  onChange={(e) =>
+                    setSimulatorValues({
+                      ...simulatorValues,
+                      tipoInvestimento: e.target.value,
+                    })
+                  }
                 >
                   <option value="poupanca">Poupança (0.5% a.m.)</option>
                   <option value="cdi">CDI (0.8% a.m.)</option>
@@ -556,15 +573,26 @@ function MetricasPage() {
                 </Select>
               </InputGroup>
             </div>
-            
+
             <ResultCard>
               <ResultValue>R$ {calcularRendimento().toFixed(2)}</ResultValue>
-              <ResultLabel>Valor total após {simulatorValues.periodo} meses</ResultLabel>
-              <div style={{ marginTop: '15px', fontSize: '0.9rem', opacity: 0.8 }}>
-                Investimento total: R$ {(simulatorValues.valorMensal * simulatorValues.periodo).toFixed(2)}
+              <ResultLabel>
+                Valor total após {simulatorValues.periodo} meses
+              </ResultLabel>
+              <div
+                style={{ marginTop: '15px', fontSize: '0.9rem', opacity: 0.8 }}
+              >
+                Investimento total: R${' '}
+                {(
+                  simulatorValues.valorMensal * simulatorValues.periodo
+                ).toFixed(2)}
               </div>
               <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>
-                Rendimento: R$ {(calcularRendimento() - (simulatorValues.valorMensal * simulatorValues.periodo)).toFixed(2)}
+                Rendimento: R${' '}
+                {(
+                  calcularRendimento() -
+                  simulatorValues.valorMensal * simulatorValues.periodo
+                ).toFixed(2)}
               </div>
             </ResultCard>
           </SimulatorGrid>
@@ -575,38 +603,43 @@ function MetricasPage() {
             <FaLightbulb />
             Insights Financeiros
           </InsightsTitle>
-          
+
           <InsightCard gradient="#48bb78 0%, #38a169 100%">
             <InsightIcon>🎯</InsightIcon>
             <InsightText>
-              Você gastou R$ {metricas.totalGastos.toFixed(2)} este mês. 
-              {economiaProjetada > 0 
+              Você gastou R$ {metricas.totalGastos.toFixed(2)} este mês.
+              {economiaProjetada > 0
                 ? ` Parabéns! Você está economizando R$ ${economiaProjetada.toFixed(2)} em relação à sua meta.`
-                : ` Considere revisar seus gastos para atingir sua meta mensal.`
-              }
+                : ` Considere revisar seus gastos para atingir sua meta mensal.`}
             </InsightText>
           </InsightCard>
 
           <InsightCard gradient="#667eea 0%, #764ba2 100%">
             <InsightIcon>💰</InsightIcon>
             <InsightText>
-              Com R$ {metricas.valorPoupado.toFixed(2)} poupados, você já tem uma boa reserva! 
-              Continue mantendo esse ritmo para atingir seus objetivos financeiros.
+              Com R$ {metricas.valorPoupado.toFixed(2)} poupados, você já tem
+              uma boa reserva! Continue mantendo esse ritmo para atingir seus
+              objetivos financeiros.
             </InsightText>
           </InsightCard>
 
           <InsightCard gradient="#f093fb 0%, #f5576c 100%">
             <InsightIcon>📈</InsightIcon>
             <InsightText>
-              Seu rendimento simulado no CDI é de R$ {metricas.rendimentoCDI.toFixed(2)}. 
-              Investindo R$ {simulatorValues.valorMensal} mensalmente, você teria R$ {calcularRendimento().toFixed(2)} em {simulatorValues.periodo} meses!
+              Seu rendimento simulado no CDI é de R${' '}
+              {metricas.rendimentoCDI.toFixed(2)}. Investindo R${' '}
+              {simulatorValues.valorMensal} mensalmente, você teria R${' '}
+              {calcularRendimento().toFixed(2)} em {simulatorValues.periodo}{' '}
+              meses!
             </InsightText>
           </InsightCard>
 
           <InsightCard gradient="#4facfe 0%, #00f2fe 100%">
             <InsightIcon>🚀</InsightIcon>
             <InsightText>
-              Dica: Diversifique seus investimentos! Considere alocar parte do seu dinheiro em diferentes tipos de investimento para maximizar seus rendimentos.
+              Dica: Diversifique seus investimentos! Considere alocar parte do
+              seu dinheiro em diferentes tipos de investimento para maximizar
+              seus rendimentos.
             </InsightText>
           </InsightCard>
         </InsightsSection>
@@ -616,4 +649,3 @@ function MetricasPage() {
 }
 
 export default MetricasPage;
-

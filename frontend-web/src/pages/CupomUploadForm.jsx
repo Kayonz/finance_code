@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/SideBar";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from '../components/SideBar';
 
 const Page = styled.div`
   display: flex;
@@ -313,7 +313,7 @@ const InfoText = styled.p`
 const CupomUploadForm = ({ onGastosAtualizados }) => {
   const [file, setFile] = useState(null);
   const [categorias, setCategorias] = useState([]);
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
   const [loading, setLoading] = useState(false);
   const [resultado, setResultado] = useState(null);
   const [error, setError] = useState(null);
@@ -326,30 +326,34 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
     // Detecta se é dispositivo móvel
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isMobileDevice =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+          userAgent.toLowerCase(),
+        );
+      const isTouchDevice =
+        'ontouchstart' in window || navigator.maxTouchPoints > 0;
       setIsMobile(isMobileDevice || isTouchDevice);
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
     const fetchCategorias = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       try {
-        const res = await fetch("http://localhost:5000/api/categorias", {
+        const res = await fetch('http://localhost:5000/api/categorias', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error("Erro ao buscar categorias");
+        if (!res.ok) throw new Error('Erro ao buscar categorias');
         const data = await res.json();
         setCategorias(data);
       } catch (err) {
-        console.error("Erro ao buscar categorias", err);
-        setError("Erro ao carregar categorias");
+        console.error('Erro ao buscar categorias', err);
+        setError('Erro ao carregar categorias');
       }
     };
 
@@ -365,7 +369,7 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
 
   const handleUpload = async () => {
     if (!file || !categoriaSelecionada) {
-      setError("Selecione uma categoria e um arquivo.");
+      setError('Selecione uma categoria e um arquivo.');
       setSuccess(null);
       return;
     }
@@ -376,13 +380,13 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
 
     try {
       const formData = new FormData();
-      formData.append("imagem", file);
-      formData.append("categoriaId", categoriaSelecionada);
+      formData.append('imagem', file);
+      formData.append('categoriaId', categoriaSelecionada);
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
-      const res = await fetch("http://localhost:5000/api/cupom", {
-        method: "POST",
+      const res = await fetch('http://localhost:5000/api/cupom', {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -392,20 +396,20 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Erro ao processar cupom");
+        setError(data.message || 'Erro ao processar cupom');
         setLoading(false);
         return;
       }
 
       setResultado(data);
-      setSuccess("Cupom processado com sucesso!");
+      setSuccess('Cupom processado com sucesso!');
 
-      if (typeof onGastosAtualizados === "function") {
+      if (typeof onGastosAtualizados === 'function') {
         onGastosAtualizados();
       }
     } catch (err) {
       console.error(err);
-      setError("Erro ao enviar o cupom");
+      setError('Erro ao enviar o cupom');
     } finally {
       setLoading(false);
     }
@@ -431,7 +435,11 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
           </Select>
 
           <FileInputWrapper>
-            {file ? file.name : isMobile ? "Selecionar da Galeria" : "Selecionar Arquivo"}
+            {file
+              ? file.name
+              : isMobile
+                ? 'Selecionar da Galeria'
+                : 'Selecionar Arquivo'}
             <HiddenInput
               type="file"
               accept="image/png, image/jpeg, image/jpg"
@@ -447,11 +455,14 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
 
           {file && <FileName>Arquivo: {file.name}</FileName>}
 
-          <Button onClick={handleUpload} disabled={loading || !file || !categoriaSelecionada}>
-            {loading ? "Processando..." : "Ler Cupom"}
+          <Button
+            onClick={handleUpload}
+            disabled={loading || !file || !categoriaSelecionada}
+          >
+            {loading ? 'Processando...' : 'Ler Cupom'}
           </Button>
 
-          <Button onClick={() => navigate("/categorias")}>
+          <Button onClick={() => navigate('/categorias')}>
             Ver Categorias
           </Button>
 
@@ -477,4 +488,3 @@ const CupomUploadForm = ({ onGastosAtualizados }) => {
 };
 
 export default CupomUploadForm;
-

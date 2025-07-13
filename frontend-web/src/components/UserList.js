@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import fetchUsers from '../services/api';
 
@@ -30,5 +29,3 @@ const UserList = () => {
 };
 
 export default UserList;
-
-

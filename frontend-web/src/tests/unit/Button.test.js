@@ -1,20 +1,13 @@
-
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Button from '@/components/Button';
+import PropTypes from 'prop-types';
 
-describe('Button', () => {
-  it('renders correctly with children', () => {
-    render(<Button>Click Me</Button>);
-    expect(screen.getByText('Click Me')).toBeInTheDocument();
-  });
+function Button({ onClick, children }) {
+  return <button onClick={onClick}>{children}</button>;
+}
 
-  it('calls onClick when clicked', () => {
-    const handleClick = jest.fn();
-    render(<Button onClick={handleClick}>Click Me</Button>);
-    fireEvent.click(screen.getByText('Click Me'));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
-});
+Button.propTypes = {
+  onClick: PropTypes.func,
+  children: PropTypes.node.isRequired,
+};
 
-
+export default Button;

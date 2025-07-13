@@ -1,26 +1,31 @@
-import { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
-import Sidebar from "../components/SideBar";
-import { FaChartLine, FaCalendarAlt, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { useEffect, useState, useRef } from 'react';
+import styled from 'styled-components';
+import Sidebar from '../components/SideBar';
+import {
+  FaChartLine,
+  FaCalendarAlt,
+  FaShoppingCart,
+  FaSearch,
+} from 'react-icons/fa';
 
 const Container = styled.div`
   width: 100vw;
   min-height: 100vh; /* Alterado de height para min-height */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   position: relative;
   overflow-x: hidden;
 `;
 
 const ContentWrapper = styled.div`
-  margin-left: ${(props) => (props.sidebarOpen ? "220px" : "70px")};
+  margin-left: ${(props) => (props.sidebarOpen ? '220px' : '70px')};
   padding: 20px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  width: calc(100% - ${(props) => (props.sidebarOpen ? "220px" : "70px")});
+  width: calc(100% - ${(props) => (props.sidebarOpen ? '220px' : '70px')});
   min-height: 100vh; /* Adicionado min-height aqui também */
   transition: all 0.3s ease;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     width: 100%;
@@ -36,7 +41,7 @@ const Header = styled.div`
   margin-bottom: 30px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  
+
   @media (max-width: 768px) {
     padding: 20px;
     margin-bottom: 20px;
@@ -52,7 +57,7 @@ const Title = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -62,7 +67,7 @@ const Subtitle = styled.p`
   color: #718096;
   margin: 0;
   font-size: 1.1rem;
-  
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }
@@ -72,7 +77,7 @@ const SearchContainer = styled.div`
   position: relative;
   margin-bottom: 30px;
   max-width: 500px;
-  
+
   @media (max-width: 768px) {
     margin-bottom: 20px;
   }
@@ -89,13 +94,13 @@ const SearchInput = styled.input`
   font-size: 1rem;
   color: #2d3748;
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
     transform: translateY(-2px);
   }
-  
+
   &::placeholder {
     color: #a0aec0;
   }
@@ -114,12 +119,12 @@ const CategoriesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 25px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -144,7 +149,7 @@ const CategoriaCard = styled.div`
   }
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -152,7 +157,7 @@ const CategoriaCard = styled.div`
     height: 4px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
-  
+
   @media (max-width: 768px) {
     padding: 20px;
   }
@@ -171,7 +176,7 @@ const CategoriaNome = styled.h3`
   font-size: 1.4rem;
   font-weight: 600;
   flex: 1;
-  
+
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
@@ -188,8 +193,8 @@ const ExpandIcon = styled.div`
   color: white;
   font-size: 1.2rem;
   transition: all 0.3s ease;
-  transform: rotate(${(props) => (props.aberto ? "180deg" : "0deg")});
-  
+  transform: rotate(${(props) => (props.aberto ? '180deg' : '0deg')});
+
   @media (max-width: 768px) {
     width: 35px;
     height: 35px;
@@ -202,7 +207,7 @@ const StatsContainer = styled.div`
   gap: 15px;
   margin-bottom: 15px;
   flex-wrap: wrap;
-  
+
   @media (max-width: 768px) {
     gap: 10px;
   }
@@ -218,11 +223,11 @@ const StatItem = styled.div`
   color: #4a5568;
   font-size: 0.9rem;
   font-weight: 500;
-  
+
   svg {
     color: #667eea;
   }
-  
+
   @media (max-width: 768px) {
     font-size: 0.8rem;
     padding: 6px 10px;
@@ -234,7 +239,7 @@ const TotalGasto = styled.div`
   font-weight: 700;
   color: #2d3748;
   margin-bottom: 10px;
-  
+
   @media (max-width: 768px) {
     font-size: 1.5rem;
   }
@@ -248,7 +253,7 @@ const TotalLabel = styled.div`
 
 const DetalhesWrapper = styled.div`
   overflow: hidden;
-  max-height: ${(props) => (props.aberto ? `${props.contentHeight}px` : "0")};
+  max-height: ${(props) => (props.aberto ? `${props.contentHeight}px` : '0')};
   transition: max-height 0.4s ease;
 `;
 
@@ -268,16 +273,16 @@ const DetalhesTitle = styled.h4`
 const GastosList = styled.div`
   max-height: 300px;
   overflow-y: auto;
-  
+
   &::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 3px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 3px;
@@ -290,11 +295,11 @@ const GastoItem = styled.div`
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
@@ -321,7 +326,7 @@ const GastoValor = styled.div`
   color: #e53e3e;
   font-weight: 700;
   font-size: 1.1rem;
-  
+
   @media (max-width: 768px) {
     align-self: flex-end;
   }
@@ -331,18 +336,18 @@ const EmptyState = styled.div`
   text-align: center;
   padding: 60px 20px;
   color: #718096;
-  
+
   svg {
     font-size: 4rem;
     margin-bottom: 20px;
     color: #cbd5e0;
   }
-  
+
   h3 {
     margin: 0 0 10px 0;
     color: #4a5568;
   }
-  
+
   p {
     margin: 0;
     font-size: 1.1rem;
@@ -374,23 +379,23 @@ export default function CategoriasPage() {
   const [abertoId, setAbertoId] = useState(null); // Alterado para armazenar apenas o ID da categoria aberta
   const [contentHeights, setContentHeights] = useState({});
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const detalhesRefs = useRef({});
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   // Carrega categorias
   useEffect(() => {
     if (!token) {
-      setError("Usuário não autenticado.");
+      setError('Usuário não autenticado.');
       return;
     }
 
-    fetch("http://localhost:5000/api/categorias", {
+    fetch('http://localhost:5000/api/categorias', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Erro ao carregar categorias");
+        if (!res.ok) throw new Error('Erro ao carregar categorias');
         return res.json();
       })
       .then((data) => {
@@ -399,7 +404,7 @@ export default function CategoriasPage() {
       })
       .catch((err) => {
         console.error(err);
-        setError("Não foi possível carregar as categorias.");
+        setError('Não foi possível carregar as categorias.');
       });
   }, [token]);
 
@@ -424,7 +429,7 @@ export default function CategoriasPage() {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
-          if (!res.ok) throw new Error("Erro ao carregar gastos da categoria");
+          if (!res.ok) throw new Error('Erro ao carregar gastos da categoria');
           return res.json();
         })
         .then((data) => {
@@ -439,15 +444,15 @@ export default function CategoriasPage() {
 
   // Filtra categorias baseado na busca
   const categoriasFiltradas = categorias.filter((cat) =>
-    cat.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    cat.nome.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // Função para formatar data
   const formatarData = (data) => {
-    return new Date(data).toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
+    return new Date(data).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
   };
 
@@ -489,31 +494,45 @@ export default function CategoriasPage() {
                 {categoriasFiltradas.map((cat) => {
                   const gastos = gastosPorCategoria[cat.id];
                   const totalGasto = gastos
-                    ? gastos.reduce((acc, gasto) => acc + parseFloat(gasto.valor || 0), 0)
+                    ? gastos.reduce(
+                        (acc, gasto) => acc + parseFloat(gasto.valor || 0),
+                        0,
+                      )
                     : 0;
                   const quantidadeGastos = gastos ? gastos.length : 0;
 
                   return (
-                    <CategoriaCard key={cat.id} onClick={() => toggleAberto(cat.id)}>
+                    <CategoriaCard
+                      key={cat.id}
+                      onClick={() => toggleAberto(cat.id)}
+                    >
                       <CardHeader>
                         <CategoriaNome>{cat.nome}</CategoriaNome>
-                        <ExpandIcon aberto={abertoId === cat.id}>▲</ExpandIcon> {/* Alterado aqui */}
+                        <ExpandIcon aberto={abertoId === cat.id}>
+                          ▲
+                        </ExpandIcon>{' '}
+                        {/* Alterado aqui */}
                       </CardHeader>
 
                       <TotalGasto>
-                        {gastos ? `R$ ${totalGasto.toFixed(2)}` : "Carregando..."}
+                        {gastos
+                          ? `R$ ${totalGasto.toFixed(2)}`
+                          : 'Carregando...'}
                       </TotalGasto>
                       <TotalLabel>Total gasto na categoria</TotalLabel>
 
                       <StatsContainer>
                         <StatItem>
                           <FaShoppingCart />
-                          {gastos ? `${quantidadeGastos} gastos` : "Carregando..."}
+                          {gastos
+                            ? `${quantidadeGastos} gastos`
+                            : 'Carregando...'}
                         </StatItem>
                         {gastos && gastos.length > 0 && (
                           <StatItem>
                             <FaChartLine />
-                            R$ {(totalGasto / quantidadeGastos).toFixed(2)} média
+                            R$ {(totalGasto / quantidadeGastos).toFixed(2)}{' '}
+                            média
                           </StatItem>
                         )}
                       </StatsContainer>
@@ -522,7 +541,9 @@ export default function CategoriasPage() {
                         aberto={abertoId === cat.id} /* Alterado aqui */
                         contentHeight={contentHeights[cat.id] || 0}
                       >
-                        <DetalhesContent ref={(el) => (detalhesRefs.current[cat.id] = el)}>
+                        <DetalhesContent
+                          ref={(el) => (detalhesRefs.current[cat.id] = el)}
+                        >
                           <DetalhesTitle>Histórico de Gastos</DetalhesTitle>
                           <GastosList>
                             {gastos ? (
@@ -530,9 +551,13 @@ export default function CategoriasPage() {
                                 gastos.map((gasto, index) => (
                                   <GastoItem key={index}>
                                     <GastoInfo>
-                                      <GastoDescricao>{gasto.descricao}</GastoDescricao>
+                                      <GastoDescricao>
+                                        {gasto.descricao}
+                                      </GastoDescricao>
                                       <GastoData>
-                                        <FaCalendarAlt style={{ marginRight: "5px" }} />
+                                        <FaCalendarAlt
+                                          style={{ marginRight: '5px' }}
+                                        />
                                         {formatarData(gasto.data_compra)}
                                       </GastoData>
                                     </GastoInfo>
@@ -565,6 +590,3 @@ export default function CategoriasPage() {
     </Container>
   );
 }
-
-
-

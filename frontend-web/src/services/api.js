@@ -10,5 +10,3 @@ const fetchUsers = async () => {
 };
 
 export default fetchUsers;
-
-
