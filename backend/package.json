@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "dotenv -e .env.test -- node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,10 @@
     "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.4",
+    "dotenv-cli": "^8.0.0",
     "jest": "^30.0.4",
     "supertest": "^7.1.3"
   }

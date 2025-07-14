@@ -13,6 +13,16 @@ describe('GET /', () => {
 });
 
 describe('GET /usuarios', () => {
+  let consoleErrorSpy;
+
+  beforeAll(() => {
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('should return a 500 error if there is a database error', async () => {
     // MOCK para simular erro no banco
     jest.spyOn(pool, 'query').mockRejectedValue(new Error('DB error'));
@@ -25,3 +35,4 @@ describe('GET /usuarios', () => {
     pool.query.mockRestore();
   });
 });
+
