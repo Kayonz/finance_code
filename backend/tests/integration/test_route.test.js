@@ -1,19 +1,10 @@
 import request from 'supertest';
-import express from 'express';
+import app from '../../src/app.js';
 
-const app = express();
-app.use(express.json());
-
-app.get('/test', (req, res) => {
-  res.status(200).json({ message: 'Hello from test route!' });
-});
-
-describe('GET /test', () => {
-  it('should return a success message', async () => {
-    const res = await request(app).get('/test');
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({ message: 'Hello from test route!' });
+describe('Testes de Integração para a Rota Raiz', () => {
+  it('deve retornar status 200 e uma mensagem de boas-vindas para a rota GET /', async () => {
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toBe('Bem-vindo à API de Gerenciamento Financeiro!');
   });
 });
-
-
