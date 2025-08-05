@@ -23,7 +23,7 @@ export const getResumoFinanceiro = async (req, res) => {
 
     const saldo = orcamento - gastos;
     const percentualGasto = orcamento > 0
-      ? Number(((gastos / orcamento) * 100).toFixed(2))
+      ? Number((gastos / orcamento * 100).toFixed(2))
       : 0;
 
     res.json({

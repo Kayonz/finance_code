@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Sidebar from "../components/SideBar.jsx";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import Sidebar from '../components/SideBar.jsx';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   PieChart,
   Pie,
@@ -14,26 +14,22 @@ import {
   YAxis,
   CartesianGrid,
   Legend,
-  LineChart,
-  Line,
-  Area,
-  AreaChart,
-} from "recharts";
+} from 'recharts';
 
 const COLORS = [
-  "#7F00FF", // Roxo neon
-  "#00C9A7", // Verde piscina
-  "#FF5F6D", // Coral neon
-  "#FFD166", // Amarelo pastel
-  "#4ECDC4", // Azul água
-  "#C06C84", // Rosa queimado
+  '#7F00FF', // Roxo neon
+  '#00C9A7', // Verde piscina
+  '#FF5F6D', // Coral neon
+  '#FFD166', // Amarelo pastel
+  '#4ECDC4', // Azul água
+  '#C06C84', // Rosa queimado
 ];
 
 const Container = styled.div`
   width: 100vw;
   min-height: 100vh;
   background: linear-gradient(135deg, #eff0f9 0%, #e8e9f3 100%);
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
 `;
 
@@ -42,7 +38,7 @@ const ContentWrapper = styled.div`
   padding: 40px;
   background: transparent;
   min-height: 100vh;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     padding: 20px;
@@ -55,7 +51,7 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 20px;
@@ -72,7 +68,7 @@ const Title = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -82,7 +78,7 @@ const UserGreeting = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
-  
+
   @media (max-width: 768px) {
     width: 100%;
     justify-content: space-between;
@@ -103,13 +99,13 @@ const UserAvatar = styled.div`
   overflow: hidden;
   border: 3px solid white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   @media (max-width: 768px) {
     width: 45px;
     height: 45px;
@@ -120,7 +116,7 @@ const UserAvatar = styled.div`
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
-  
+
   @media (max-width: 768px) {
     flex: 1;
   }
@@ -157,7 +153,7 @@ const LogoutButton = styled.button`
   &:active {
     transform: scale(0.98);
   }
-  
+
   @media (max-width: 768px) {
     padding: 10px 16px;
     font-size: 14px;
@@ -169,7 +165,7 @@ const Cards = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -185,7 +181,7 @@ const Card = styled.div`
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -193,14 +189,15 @@ const Card = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: ${props => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+    background: ${(props) =>
+      props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   }
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
   }
-  
+
   @media (max-width: 768px) {
     padding: 20px;
     border-radius: 16px;
@@ -227,7 +224,8 @@ const CardIcon = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: ${props => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+  background: ${(props) =>
+    props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,9 +236,9 @@ const CardIcon = styled.div`
 const CardValue = styled.p`
   font-size: 2.2rem;
   font-weight: 700;
-  color: ${props => props.color || '#2c3e50'};
+  color: ${(props) => props.color || '#2c3e50'};
   margin: 0;
-  
+
   @media (max-width: 768px) {
     font-size: 1.8rem;
   }
@@ -258,7 +256,7 @@ const Actions = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 40px;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -268,7 +266,8 @@ const Actions = styled.div`
 
 const ActionButton = styled.button`
   padding: 16px 24px;
-  background: ${props => props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+  background: ${(props) =>
+    props.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   color: white;
   border: none;
   border-radius: 16px;
@@ -286,7 +285,7 @@ const ActionButton = styled.button`
   &:active {
     transform: scale(0.98);
   }
-  
+
   @media (max-width: 768px) {
     padding: 14px 20px;
     font-size: 15px;
@@ -298,7 +297,7 @@ const ChartSection = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   margin-bottom: 40px;
-  
+
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -307,7 +306,7 @@ const ChartSection = styled.div`
 
 const ChartCard = styled(Card)`
   padding: 25px;
-  
+
   @media (max-width: 768px) {
     padding: 20px;
   }
@@ -318,7 +317,7 @@ const ChartTitle = styled.h3`
   margin-bottom: 20px;
   font-size: 1.3rem;
   font-weight: 600;
-  
+
   @media (max-width: 768px) {
     font-size: 1.1rem;
     margin-bottom: 15px;
@@ -332,7 +331,7 @@ const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: ${({ show }) => (show ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   z-index: 2000;
@@ -346,7 +345,7 @@ const Modal = styled.div`
   width: 90%;
   max-width: 450px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  
+
   @media (max-width: 768px) {
     padding: 30px 20px;
     margin: 20px;
@@ -369,7 +368,7 @@ const Input = styled.input`
   border-radius: 12px;
   border: 2px solid #e0e0e0;
   transition: border-color 0.3s ease;
-  
+
   &:focus {
     border-color: #667eea;
     outline: none;
@@ -380,7 +379,7 @@ const ModalActions = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 10px;
@@ -394,8 +393,10 @@ const ModalButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  
-  ${props => props.primary ? `
+
+  ${(props) =>
+    props.primary
+      ? `
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     
@@ -403,7 +404,8 @@ const ModalButton = styled.button`
       transform: translateY(-1px);
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
-  ` : `
+  `
+      : `
     background: #f8f9fa;
     color: #6c757d;
     
@@ -411,7 +413,7 @@ const ModalButton = styled.button`
       background: #e9ecef;
     }
   `}
-  
+
   @media (max-width: 768px) {
     width: 100%;
     padding: 14px;
@@ -430,7 +432,7 @@ const ProgressBar = styled.div`
 const ProgressFill = styled.div`
   height: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  width: ${props => Math.min(props.percentage, 100)}%;
+  width: ${(props) => Math.min(props.percentage, 100)}%;
   transition: width 0.3s ease;
 `;
 
@@ -441,18 +443,18 @@ function DashboardPage() {
   const [percentualGasto, setPercentualGasto] = useState(0);
   const [gastosPorCategoria, setGastosPorCategoria] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [novoOrcamento, setNovoOrcamento] = useState("");
+  const [novoOrcamento, setNovoOrcamento] = useState('');
   const [showConfirmZerar, setShowConfirmZerar] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userPhoto, setUserPhoto] = useState("");
-  const [userInitials, setUserInitials] = useState("");
+  const [userName, setUserName] = useState('');
+  const [userPhoto, setUserPhoto] = useState('');
+  const [userInitials, setUserInitials] = useState('');
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate('/login');
       return;
     }
 
@@ -463,47 +465,53 @@ function DashboardPage() {
 
   const fetchUserInfo = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/me", {
+      const res = await fetch('http://localhost:5000/api/auth/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
         const data = await res.json();
         setUserName(data.user.nome);
-        
+
         // Gerar iniciais do nome
         const initials = data.user.nome
           .split(' ')
-          .map(word => word.charAt(0))
+          .map((word) => word.charAt(0))
           .join('')
           .toUpperCase()
           .substring(0, 2);
         setUserInitials(initials);
-        
+
         // Buscar foto de perfil se existir
-        if (data.user.foto_url) { // Alterado de foto_perfil para foto_url
+        if (data.user.foto_url) {
+          // Alterado de foto_perfil para foto_url
           setUserPhoto(`http://localhost:5000${data.user.foto_url}`); // Removido /uploads
         }
       }
     } catch (error) {
-      console.error("Erro ao buscar informações do usuário:", error);
+      console.error('Erro ao buscar informações do usuário:', error);
     }
   };
 
-
   const fetchDados = async () => {
     try {
-      const orcamentoRes = await fetch("http://localhost:5000/api/orcamento", {
+      const orcamentoRes = await fetch('http://localhost:5000/api/orcamento', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const orcamentoData = await orcamentoRes.json();
       const orc = parseFloat(orcamentoData.orcamento) || 0;
       setOrcamento(orc);
 
-      const gastosRes = await fetch("http://localhost:5000/api/gastos-por-categoria", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const gastosRes = await fetch(
+        'http://localhost:5000/api/gastos-por-categoria',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const gastosData = await gastosRes.json();
-      const totalGastos = gastosData.reduce((sum, item) => sum + parseFloat(item.valor), 0);
+      const totalGastos = gastosData.reduce(
+        (sum, item) => sum + parseFloat(item.valor),
+        0,
+      );
       setGastos(totalGastos);
 
       const saldoAtual = orc - totalGastos;
@@ -512,17 +520,17 @@ function DashboardPage() {
       const percentual = orc > 0 ? ((totalGastos / orc) * 100).toFixed(2) : 0;
       setPercentualGasto(percentual);
     } catch (error) {
-      console.error("Erro ao buscar dados:", error);
+      console.error('Erro ao buscar dados:', error);
     }
   };
 
   const fetchGastosPorCategoria = () => {
-    fetch("http://localhost:5000/api/gastos-por-categoria", {
+    fetch('http://localhost:5000/api/gastos-por-categoria', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {
-        const parsedData = data.map(item => ({
+        const parsedData = data.map((item) => ({
           ...item,
           valor: Number(item.valor),
         }));
@@ -532,8 +540,8 @@ function DashboardPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   const handleSetOrcamento = () => setShowModal(true);
@@ -541,14 +549,14 @@ function DashboardPage() {
   const handleConfirmOrcamento = () => {
     const valor = parseFloat(novoOrcamento);
     if (isNaN(valor)) {
-      alert("Digite um valor válido.");
+      alert('Digite um valor válido.');
       return;
     }
 
-    fetch("http://localhost:5000/api/orcamento", {
-      method: "POST",
+    fetch('http://localhost:5000/api/orcamento', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ valor }),
@@ -556,7 +564,7 @@ function DashboardPage() {
       .then((res) => res.json())
       .then(() => {
         setShowModal(false);
-        setNovoOrcamento("");
+        setNovoOrcamento('');
         fetchDados();
       })
       .catch((err) => console.error(err));
@@ -565,8 +573,8 @@ function DashboardPage() {
   const handleZerarOrcamento = () => setShowConfirmZerar(true);
 
   const handleConfirmZerar = () => {
-    fetch("http://localhost:5000/api/orcamento/zerar", {
-      method: "PUT",
+    fetch('http://localhost:5000/api/orcamento/zerar', {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -581,18 +589,18 @@ function DashboardPage() {
       .catch((err) => console.error(err));
   };
 
-  const handleOpenCupom = () => navigate("/cupom");
+  const handleOpenCupom = () => navigate('/cupom');
 
   const getStatusColor = () => {
-    if (percentualGasto <= 50) return "#1ab188";
-    if (percentualGasto <= 80) return "#FFD166";
-    return "#FF5F6D";
+    if (percentualGasto <= 50) return '#1ab188';
+    if (percentualGasto <= 80) return '#FFD166';
+    return '#FF5F6D';
   };
 
   const getStatusText = () => {
-    if (percentualGasto <= 50) return "Excelente controle!";
-    if (percentualGasto <= 80) return "Atenção aos gastos";
-    return "Limite ultrapassado!";
+    if (percentualGasto <= 50) return 'Excelente controle!';
+    if (percentualGasto <= 80) return 'Atenção aos gastos';
+    return 'Limite ultrapassado!';
   };
 
   return (
@@ -604,9 +612,9 @@ function DashboardPage() {
           <UserGreeting>
             <UserAvatar>
               {userPhoto ? (
-                <img 
-                  src={userPhoto} 
-                  alt="Foto de perfil" 
+                <img
+                  src={userPhoto}
+                  alt="Foto de perfil"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
@@ -614,12 +622,12 @@ function DashboardPage() {
                 />
               ) : null}
               <span style={{ display: userPhoto ? 'none' : 'flex' }}>
-                {userInitials || "U"}
+                {userInitials || 'U'}
               </span>
             </UserAvatar>
             <UserInfo>
               <WelcomeText>Bem-vindo de volta,</WelcomeText>
-              <UserName>{userName || "Usuário"}</UserName>
+              <UserName>{userName || 'Usuário'}</UserName>
             </UserInfo>
             <LogoutButton onClick={handleLogout}>Sair</LogoutButton>
           </UserGreeting>
@@ -629,7 +637,9 @@ function DashboardPage() {
           <Card gradient="linear-gradient(135deg, #1ab188 0%, #159a73 100%)">
             <CardHeader>
               <CardTitle>Saldo Disponível</CardTitle>
-              <CardIcon gradient="linear-gradient(135deg, #1ab188 0%, #159a73 100%)">💰</CardIcon>
+              <CardIcon gradient="linear-gradient(135deg, #1ab188 0%, #159a73 100%)">
+                💰
+              </CardIcon>
             </CardHeader>
             <CardValue color="#1ab188">R$ {saldo.toFixed(2)}</CardValue>
             <CardSubtext>Valor restante do orçamento</CardSubtext>
@@ -638,7 +648,9 @@ function DashboardPage() {
           <Card gradient="linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)">
             <CardHeader>
               <CardTitle>Gastos do Mês</CardTitle>
-              <CardIcon gradient="linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)">📊</CardIcon>
+              <CardIcon gradient="linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)">
+                📊
+              </CardIcon>
             </CardHeader>
             <CardValue color="#FF5F6D">R$ {gastos.toFixed(2)}</CardValue>
             <CardSubtext>Total gasto este mês</CardSubtext>
@@ -647,16 +659,24 @@ function DashboardPage() {
           <Card gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
             <CardHeader>
               <CardTitle>Orçamento Total</CardTitle>
-              <CardIcon gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">🎯</CardIcon>
+              <CardIcon gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                🎯
+              </CardIcon>
             </CardHeader>
             <CardValue color="#667eea">R$ {orcamento.toFixed(2)}</CardValue>
             <CardSubtext>Limite definido para o mês</CardSubtext>
           </Card>
 
-          <Card gradient={`linear-gradient(135deg, ${getStatusColor()} 0%, ${getStatusColor()}80 100%)`}>
+          <Card
+            gradient={`linear-gradient(135deg, ${getStatusColor()} 0%, ${getStatusColor()}80 100%)`}
+          >
             <CardHeader>
               <CardTitle>Status do Orçamento</CardTitle>
-              <CardIcon gradient={`linear-gradient(135deg, ${getStatusColor()} 0%, ${getStatusColor()}80 100%)`}>📈</CardIcon>
+              <CardIcon
+                gradient={`linear-gradient(135deg, ${getStatusColor()} 0%, ${getStatusColor()}80 100%)`}
+              >
+                📈
+              </CardIcon>
             </CardHeader>
             <CardValue color={getStatusColor()}>{percentualGasto}%</CardValue>
             <CardSubtext>{getStatusText()}</CardSubtext>
@@ -667,26 +687,26 @@ function DashboardPage() {
         </Cards>
 
         <Actions>
-          <ActionButton 
+          <ActionButton
             onClick={handleOpenCupom}
             gradient="linear-gradient(135deg, #1ab188 0%, #159a73 100%)"
           >
             📷 Ler Cupom Fiscal
           </ActionButton>
-          <ActionButton 
+          <ActionButton
             onClick={handleSetOrcamento}
             gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
           >
             🎯 Definir Orçamento
           </ActionButton>
-          <ActionButton 
+          <ActionButton
             onClick={handleZerarOrcamento}
             gradient="linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%)"
           >
             🗑️ Zerar Orçamento
           </ActionButton>
-          <ActionButton 
-            onClick={() => navigate("/metricas")}
+          <ActionButton
+            onClick={() => navigate('/metricas')}
             gradient="linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)"
           >
             📊 Ver Métricas
@@ -696,12 +716,14 @@ function DashboardPage() {
         <ChartSection>
           <ChartCard>
             <ChartTitle>Distribuição por Categoria</ChartTitle>
-            <div style={{ width: "100%", height: 300 }}>
+            <div style={{ width: '100%', height: 300 }}>
               <ResponsiveContainer>
                 <PieChart>
                   <Pie
                     data={gastosPorCategoria.reduce((acc, item) => {
-                      const found = acc.find(c => c.categoria === item.categoria);
+                      const found = acc.find(
+                        (c) => c.categoria === item.categoria,
+                      );
                       if (found) {
                         found.valor += item.valor;
                       } else {
@@ -717,7 +739,10 @@ function DashboardPage() {
                     label
                   >
                     {gastosPorCategoria.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -729,7 +754,7 @@ function DashboardPage() {
 
           <ChartCard>
             <ChartTitle>Histórico de Gastos</ChartTitle>
-            <div style={{ width: "100%", height: 300 }}>
+            <div style={{ width: '100%', height: 300 }}>
               <ResponsiveContainer>
                 <BarChart data={gastosPorCategoria}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -756,8 +781,12 @@ function DashboardPage() {
             onChange={(e) => setNovoOrcamento(e.target.value)}
           />
           <ModalActions>
-            <ModalButton onClick={() => setShowModal(false)}>Cancelar</ModalButton>
-            <ModalButton primary onClick={handleConfirmOrcamento}>Salvar</ModalButton>
+            <ModalButton onClick={() => setShowModal(false)}>
+              Cancelar
+            </ModalButton>
+            <ModalButton primary onClick={handleConfirmOrcamento}>
+              Salvar
+            </ModalButton>
           </ModalActions>
         </Modal>
       </ModalOverlay>
@@ -766,12 +795,23 @@ function DashboardPage() {
       <ModalOverlay show={showConfirmZerar}>
         <Modal>
           <ModalTitle>Confirmar Ação</ModalTitle>
-          <p style={{ textAlign: "center", color: "#7f8c8d", marginBottom: "25px" }}>
-            Tem certeza que deseja zerar o orçamento? Esta ação não pode ser desfeita.
+          <p
+            style={{
+              textAlign: 'center',
+              color: '#7f8c8d',
+              marginBottom: '25px',
+            }}
+          >
+            Tem certeza que deseja zerar o orçamento? Esta ação não pode ser
+            desfeita.
           </p>
           <ModalActions>
-            <ModalButton onClick={() => setShowConfirmZerar(false)}>Cancelar</ModalButton>
-            <ModalButton primary onClick={handleConfirmZerar}>Confirmar</ModalButton>
+            <ModalButton onClick={() => setShowConfirmZerar(false)}>
+              Cancelar
+            </ModalButton>
+            <ModalButton primary onClick={handleConfirmZerar}>
+              Confirmar
+            </ModalButton>
           </ModalActions>
         </Modal>
       </ModalOverlay>

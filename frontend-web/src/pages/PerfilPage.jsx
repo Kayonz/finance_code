@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Sidebar from "../components/SideBar";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Sidebar from '../components/SideBar';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, #eff0f9 0%, #e8e9f3 100%);
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -18,7 +18,7 @@ const Content = styled.div`
   padding: 40px 60px;
   overflow-y: auto;
   margin-left: 220px;
-  
+
   @media (max-width: 768px) {
     margin-left: 0;
     padding: 20px;
@@ -29,7 +29,7 @@ const Content = styled.div`
 const Header = styled.div`
   text-align: center;
   margin-bottom: 40px;
-  
+
   @media (max-width: 768px) {
     margin-bottom: 30px;
   }
@@ -44,7 +44,7 @@ const Title = styled.h2`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -54,7 +54,7 @@ const Subtitle = styled.p`
   color: #7f8c8d;
   font-size: 1.1rem;
   margin: 0;
-  
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }
@@ -69,7 +69,7 @@ const ProfileCard = styled.div`
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -79,7 +79,7 @@ const ProfileCard = styled.div`
     height: 6px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
-  
+
   @media (max-width: 768px) {
     padding: 30px 20px;
     border-radius: 20px;
@@ -92,7 +92,7 @@ const PhotoSection = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
-  
+
   @media (max-width: 768px) {
     margin-bottom: 30px;
   }
@@ -111,12 +111,12 @@ const FotoPreview = styled.img`
   border: 4px solid #667eea;
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
   }
-  
+
   @media (max-width: 768px) {
     width: 100px;
     height: 100px;
@@ -137,12 +137,12 @@ const DefaultAvatar = styled.div`
   border: 4px solid #667eea;
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
   }
-  
+
   @media (max-width: 768px) {
     width: 100px;
     height: 100px;
@@ -159,12 +159,12 @@ const PhotoUploadButton = styled.label`
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(26, 177, 136, 0.3);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(26, 177, 136, 0.4);
   }
-  
+
   @media (max-width: 768px) {
     padding: 10px 20px;
     font-size: 14px;
@@ -175,7 +175,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  
+
   @media (max-width: 768px) {
     gap: 20px;
   }
@@ -193,7 +193,7 @@ const Label = styled.label`
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  
+
   @media (max-width: 768px) {
     font-size: 0.9rem;
   }
@@ -206,18 +206,18 @@ const Input = styled.input`
   font-size: 16px;
   background-color: #fff;
   transition: all 0.3s ease;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 
   &:focus {
     border-color: #667eea;
     outline: none;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
-  
+
   &::placeholder {
     color: #bdc3c7;
   }
-  
+
   @media (max-width: 768px) {
     padding: 14px 16px;
     font-size: 16px;
@@ -254,7 +254,7 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 15px;
   margin-top: 20px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 12px;
@@ -263,9 +263,10 @@ const ButtonGroup = styled.div`
 
 const Button = styled.button`
   flex: 1;
-  background: ${props => props.variant === 'secondary' 
-    ? 'linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%)' 
-    : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
+  background: ${(props) =>
+    props.variant === 'secondary'
+      ? 'linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%)'
+      : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   color: white;
   font-weight: 700;
   padding: 16px 0;
@@ -284,13 +285,13 @@ const Button = styled.button`
   &:active {
     transform: scale(0.98);
   }
-  
+
   &:disabled {
     background: #bdc3c7;
     cursor: not-allowed;
     transform: none;
   }
-  
+
   @media (max-width: 768px) {
     padding: 14px 0;
     font-size: 15px;
@@ -306,19 +307,25 @@ const LoadingSpinner = styled.div`
   border-top-color: white;
   animation: spin 1s ease-in-out infinite;
   margin-right: 10px;
-  
+
   @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 
 const InfoCard = styled.div`
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1) 0%,
+    rgba(118, 75, 162, 0.1) 100%
+  );
   border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
-  
+
   @media (max-width: 768px) {
     padding: 15px;
     margin-bottom: 20px;
@@ -342,30 +349,30 @@ const InfoText = styled.p`
 function EditarPerfil() {
   const navigate = useNavigate();
 
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(null);
   const [fotoAtualUrl, setFotoAtualUrl] = useState(null);
-  const [erro, setErro] = useState("");
-  const [sucesso, setSucesso] = useState("");
+  const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate('/login');
       return;
     }
 
-    fetch("http://localhost:5000/api/auth/me", {
+    fetch('http://localhost:5000/api/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Erro ao carregar perfil");
+        if (!res.ok) throw new Error('Erro ao carregar perfil');
         return res.json();
       })
       .then((data) => {
@@ -376,9 +383,9 @@ function EditarPerfil() {
         }
       })
       .catch(() => {
-        setErro("Falha ao carregar perfil, faça login novamente");
-        localStorage.removeItem("token");
-        navigate("/login");
+        setErro('Falha ao carregar perfil, faça login novamente');
+        localStorage.removeItem('token');
+        navigate('/login');
       });
   }, [token, navigate]);
 
@@ -395,53 +402,53 @@ function EditarPerfil() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErro("");
-    setSucesso("");
+    setErro('');
+    setSucesso('');
     setLoading(true);
 
     if ((senha || confirmarSenha) && senha !== confirmarSenha) {
-      setErro("As senhas não coincidem.");
+      setErro('As senhas não coincidem.');
       setLoading(false);
       return;
     }
     if (senha && senha.length < 6) {
-      setErro("A senha deve ter pelo menos 6 caracteres.");
+      setErro('A senha deve ter pelo menos 6 caracteres.');
       setLoading(false);
       return;
     }
 
     const formData = new FormData();
-    formData.append("nome", nome);
-    formData.append("email", email);
-    if (senha) formData.append("senha", senha);
-    if (fotoPerfil) formData.append("fotoPerfil", fotoPerfil);
+    formData.append('nome', nome);
+    formData.append('email', email);
+    if (senha) formData.append('senha', senha);
+    if (fotoPerfil) formData.append('fotoPerfil', fotoPerfil);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/me", {
-        method: "PATCH",
+      const res = await fetch('http://localhost:5000/api/auth/me', {
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Erro ao atualizar perfil");
-      
+      if (!res.ok) throw new Error('Erro ao atualizar perfil');
+
       const data = await res.json();
-      setSucesso("Perfil atualizado com sucesso!");
-      
+      setSucesso('Perfil atualizado com sucesso!');
+
       if (data.user.foto_url) {
         setFotoAtualUrl(`http://localhost:5000${data.user.foto_url}`);
       }
-      
-      setSenha("");
-      setConfirmarSenha("");
+
+      setSenha('');
+      setConfirmarSenha('');
       setFotoPerfil(null);
       setPreviewFoto(null);
-      
-      setTimeout(() => setSucesso(""), 5000);
+
+      setTimeout(() => setSucesso(''), 5000);
     } catch (error) {
-      setErro("Erro ao atualizar perfil. Tente novamente.");
+      setErro('Erro ao atualizar perfil. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -450,23 +457,24 @@ function EditarPerfil() {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB
-        setErro("A imagem deve ter no máximo 5MB.");
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB
+        setErro('A imagem deve ter no máximo 5MB.');
         return;
       }
       if (!file.type.startsWith('image/')) {
-        setErro("Por favor, selecione apenas arquivos de imagem.");
+        setErro('Por favor, selecione apenas arquivos de imagem.');
         return;
       }
       setFotoPerfil(file);
-      setErro("");
+      setErro('');
     }
   };
 
   const getInitials = (name) => {
     return name
       .split(' ')
-      .map(word => word[0])
+      .map((word) => word[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
@@ -478,7 +486,9 @@ function EditarPerfil() {
       <Content>
         <Header>
           <Title>Meu Perfil</Title>
-          <Subtitle>Gerencie suas informações pessoais e configurações</Subtitle>
+          <Subtitle>
+            Gerencie suas informações pessoais e configurações
+          </Subtitle>
         </Header>
 
         <ProfileCard>
@@ -489,12 +499,10 @@ function EditarPerfil() {
               ) : fotoAtualUrl ? (
                 <FotoPreview src={fotoAtualUrl} alt="Foto atual" />
               ) : (
-                <DefaultAvatar>
-                  {nome ? getInitials(nome) : "U"}
-                </DefaultAvatar>
+                <DefaultAvatar>{nome ? getInitials(nome) : 'U'}</DefaultAvatar>
               )}
             </PhotoContainer>
-            
+
             <PhotoUploadButton>
               📷 Alterar Foto
               <HiddenInput
@@ -508,7 +516,7 @@ function EditarPerfil() {
           <InfoCard>
             <InfoTitle>💡 Dicas para sua foto de perfil</InfoTitle>
             <InfoText>
-              Use uma foto clara e bem iluminada. Formatos aceitos: JPG, PNG. 
+              Use uma foto clara e bem iluminada. Formatos aceitos: JPG, PNG.
               Tamanho máximo: 5MB. A foto será redimensionada automaticamente.
             </InfoText>
           </InfoCard>
@@ -516,21 +524,21 @@ function EditarPerfil() {
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Label>Nome Completo</Label>
-              <Input 
-                value={nome} 
-                onChange={(e) => setNome(e.target.value)} 
-                required 
+              <Input
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                required
                 placeholder="Digite seu nome completo"
               />
             </FormGroup>
 
             <FormGroup>
               <Label>Email</Label>
-              <Input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                required 
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 placeholder="Digite seu email"
               />
             </FormGroup>
@@ -559,16 +567,16 @@ function EditarPerfil() {
             {sucesso && <SuccessMsg>{sucesso}</SuccessMsg>}
 
             <ButtonGroup>
-              <Button 
-                type="button" 
-                variant="secondary" 
-                onClick={() => navigate("/dashboard")}
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => navigate('/dashboard')}
               >
                 Cancelar
               </Button>
               <Button type="submit" disabled={loading}>
                 {loading && <LoadingSpinner />}
-                {loading ? "Salvando..." : "Salvar Alterações"}
+                {loading ? 'Salvando...' : 'Salvar Alterações'}
               </Button>
             </ButtonGroup>
           </Form>

@@ -7,4 +7,3 @@ npm install react
 Assim que instalar as dependências, rode no frontend:
 
 npm start
-
