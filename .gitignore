@@ -1,0 +1,30 @@
+# ========== Backend ==========
+/backend/node_modules
+/backend/.env
+/backend/.env.test
+/backend/test.db
+/backend/.pnp
+/backend/.pnp.js
+
+# ========== Frontend ==========
+/frontend-web/node_modules
+/frontend-web/build
+/frontend-web/coverage
+
+# Dependencies
+/frontend-web/.pnp
+/frontend-web/.pnp.js
+
+# Env files
+/frontend-web/.env.local
+/frontend-web/.env.development.local
+/frontend-web/.env.test.local
+/frontend-web/.env.production.local
+
+# Logs
+/frontend-web/npm-debug.log*
+/frontend-web/yarn-debug.log*
+/frontend-web/yarn-error.log*
+
+# Misc
+/frontend-web/.DS_Store
