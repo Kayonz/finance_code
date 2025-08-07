@@ -5,6 +5,7 @@
 /backend/test.db
 /backend/.pnp
 /backend/.pnp.js
+/backend/coverage
 
 # ========== Frontend ==========
 /frontend-web/node_modules
