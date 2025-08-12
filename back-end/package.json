@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "dotenv -e .env.test -- node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "dotenv -e .env.test -- node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "babel-jest": "^30.0.4",
     "dotenv-cli": "^8.0.0",
     "jest": "^30.0.4",
+    "nodemon": "^3.1.10",
     "supertest": "^7.1.3"
   }
 }

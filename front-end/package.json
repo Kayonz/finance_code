@@ -2,6 +2,16 @@
   "name": "frontend-web",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "lint": "eslint src --ext .js,.jsx",
+    "format": "prettier --write ."
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -23,16 +33,6 @@
     "styled-components": "^6.1.17",
     "tesseract.js": "^6.0.1",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "lint": "eslint src --ext .js,.jsx",
-    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [

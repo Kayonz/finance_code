@@ -1,31 +1,31 @@
 # ========== Backend ==========
-/backend/node_modules
-/backend/.env
-/backend/.env.test
-/backend/test.db
-/backend/.pnp
-/backend/.pnp.js
-/backend/coverage
+/back-end/node_modules
+/back-end/.env
+/back-end/.env.test
+/back-end/test.db
+/back-end/.pnp
+/back-end/.pnp.js
+/back-end/coverage
 
 # ========== Frontend ==========
-/frontend-web/node_modules
-/frontend-web/build
-/frontend-web/coverage
+/front-end/node_modules
+/front-end/build
+/front-end/coverage
 
 # Dependencies
-/frontend-web/.pnp
-/frontend-web/.pnp.js
+/front-end/.pnp
+/front-end/.pnp.js
 
 # Env files
-/frontend-web/.env.local
-/frontend-web/.env.development.local
-/frontend-web/.env.test.local
-/frontend-web/.env.production.local
+/front-end/.env.local
+/front-end/.env.development.local
+/front-end/.env.test.local
+/front-end/.env.production.local
 
 # Logs
-/frontend-web/npm-debug.log*
-/frontend-web/yarn-debug.log*
-/frontend-web/yarn-error.log*
+/front-end/npm-debug.log*
+/front-end/yarn-debug.log*
+/front-end/yarn-error.log*
 
 # Misc
-/frontend-web/.DS_Store
+/front-end/.DS_Store
