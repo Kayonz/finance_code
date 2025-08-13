@@ -1,6 +1,6 @@
 import express from 'express';
-import { getCategorias, updateCategoria, getGastosPorCategoria, getResumoGastosPorCategoria } from '../controllers/categoriaController.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import { getCategorias, updateCategoria, getGastosPorCategoria, getResumoGastosPorCategoria } from '../../controllers/categoriaController.js';
+import { verifyToken } from '../middleware/index.js';
 
 const router = express.Router();
 

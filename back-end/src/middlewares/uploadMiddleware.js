@@ -3,17 +3,14 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-// Permite usar __dirname no ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Garante que a pasta uploads_perfil exista
 const pastaUploads = path.resolve(__dirname, '../uploads_perfil');
 if (!fs.existsSync(pastaUploads)) {
   fs.mkdirSync(pastaUploads);
 }
 
-// Configuração do armazenamento
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, pastaUploads);
@@ -25,7 +22,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// Exporta o middleware
 const upload = multer({ storage });
 
 export default upload;

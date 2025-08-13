@@ -1,8 +1,8 @@
 import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
-import { processarCupom } from '../controllers/ocrController.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import { processarCupom } from '../../controllers/ocrController.js';
+import { verifyToken } from '../middleware/index.js';
 
 const router = express.Router();
 
@@ -23,7 +23,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ocrRoutes.js
 router.post('/', verifyToken, upload.single('imagem'), processarCupom);
 
 

@@ -1,15 +1,39 @@
-import pkg from 'pg';
-import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { Sequelize, DataTypes } from 'sequelize';
 
-dotenv.config();
-const { Pool } = pkg;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'postgres'
+  }
+);
+
+const db = {};
+
+const modelsPath = path.join(__dirname, '../models');
+
+fs.readdirSync(modelsPath)
+  .filter(file => file !== 'index.js' && file.endsWith('.js'))
+  .forEach(file => {
+    const model = require(path.join(modelsPath, file))(sequelize, DataTypes);
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
 });
 
-export default pool;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+export default db;

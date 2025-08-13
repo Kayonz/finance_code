@@ -1,6 +1,6 @@
 import express from 'express';
-import { getResumoFinanceiro } from '../controllers/financeiroController.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import { getResumoFinanceiro } from '../../controllers/financeiroController.js';
+import { verifyToken } from '../middleware/index.js';
 
 const router = express.Router();
 

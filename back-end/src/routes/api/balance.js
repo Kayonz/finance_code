@@ -1,7 +1,7 @@
 // routes/orcamentoRoutes.js
 import express from 'express';
-import { verifyToken } from '../middlewares/authMiddleware.js';
-import { getOrcamento, salvarOrcamento, zerarOrcamento } from '../controllers/orcamentoController.js';
+import { verifyToken } from '../middleware/index.js';
+import { getOrcamento, salvarOrcamento, zerarOrcamento } from '../../controllers/orcamentoController.js';
 
 const router = express.Router();
 

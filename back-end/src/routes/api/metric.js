@@ -1,6 +1,6 @@
 import express from 'express';
-import { getMetricasFinanceiras } from '../controllers/metricasController.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import { getMetricasFinanceiras } from '../../controllers/metricasController.js';
+import { verifyToken } from '../middleware/index.js';
 
 const router = express.Router( );
 

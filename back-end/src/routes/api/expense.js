@@ -1,6 +1,6 @@
 import express from 'express';
-import { verifyToken } from '../middlewares/authMiddleware.js';
-import { getGastosPorCategoria } from '../controllers/gastos-por-categoria.js';
+import { verifyToken } from '../middleware/index.js';
+import { getGastosPorCategoria } from '../../controllers/gastos-por-categoria.js';
 
 const router = express.Router();
 
